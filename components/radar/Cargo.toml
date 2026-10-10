@@ -1,0 +1,39 @@
+# radar: the app's own functions in ordinary Rust. `tools/octo wasm build`
+# builds this crate for wasm32-wasip2, a WebAssembly component, and copies it
+# into the bundle as fns/radar.wasm; the app's script calls each function
+# as `wasm.<name>` (OctoSense ADR 0014; OctoSense App Flow's docs/RUST.md).
+[package]
+name = "radar"
+version = "0.1.0"
+edition = "2024"
+# wit-bindgen, which the SDK's macro uses, and the crates it builds with need
+# Rust 1.88.
+rust-version = "1.88"
+publish = false
+
+[lib]
+# cdylib is the component; rlib lets `cargo test` run the same functions natively.
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# The SDK, from OctoSense App Flow at a fixed commit: the newest one on App
+# Flow's main that `tools/octo wasm new` found in its checkout. A commit
+# builds the same everywhere, so a teammate, CI and a reviewer build what you
+# built. For a newer SDK, change `rev`, then run `cargo update -p
+# octosense-component`. The SDK is not on crates.io yet.
+octosense-component = { git = "https://github.com/OctoSense-org/OctoSense-App-Flow", rev = "dd25bdb6a3f9e3757b586447e4b5ca57d412deb5" }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+semver = "1"
+time = { version = "0.3", features = ["parsing", "formatting"] }
+
+[profile.release]
+# Small: a bundle holds at most 8 MiB.
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
+
+# A workspace of its own, so a Cargo workspace around the app does not claim it.
+[workspace]

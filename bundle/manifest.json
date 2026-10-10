@@ -1,0 +1,42 @@
+{
+  "agent": {
+    "background": false,
+    "instructions": "AGENT.md",
+    "model": {
+      "local_only": false,
+      "needs": [
+        "tool_calling"
+      ]
+    },
+    "profile": "read-only",
+    "tools": []
+  },
+  "capabilities": [
+    "storage",
+    "wasm",
+    "net",
+    "glance",
+    "octos.session.open",
+    "octos.session.history",
+    "octos.turn.start"
+  ],
+  "id": "org.ymote.reporadar",
+  "integrity": {
+    "bundle_blake3": "4e7c8f115b65653b909cd4ebde6666e2788eeca553da0195087b6669f1456ec5"
+  },
+  "name": "Repo Radar",
+  "network": {
+    "hosts": [
+      "api.github.com",
+      "github.com"
+    ]
+  },
+  "requires": [
+    "wasm-components-v1"
+  ],
+  "schema": 1,
+  "storage": {
+    "max_bytes": 8388608
+  },
+  "version": "0.1.0"
+}

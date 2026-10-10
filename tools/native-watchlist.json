@@ -1,0 +1,477 @@
+{
+  "schema": 1,
+  "scope": "App Hub UI installation and public-GitHub watchlist; no model or external browser actions",
+  "steps": [
+    {
+      "op": "launch",
+      "target": "apphub"
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "search_tab"
+      }
+    },
+    {
+      "op": "refuse_agent",
+      "app": "apphub"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "search_tab"
+      }
+    },
+    {
+      "op": "type",
+      "selector": {
+        "id": "search"
+      },
+      "text": "Repo Radar"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "Get"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "text": "Install Repo Radar?"
+      }
+    },
+    {
+      "op": "scroll_until",
+      "selector": {
+        "id": "list",
+        "type": "PortalList"
+      },
+      "until": {
+        "text": "Install"
+      },
+      "dy": 400,
+      "max_scrolls": 8
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "Install"
+      }
+    },
+    {
+      "op": "wait",
+      "seconds": 1
+    },
+    {
+      "op": "scroll_until",
+      "selector": {
+        "id": "list",
+        "type": "PortalList"
+      },
+      "until": {
+        "contains": "Installed. Your app is ready to open."
+      },
+      "dy": -500,
+      "max_scrolls": 8
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "contains": "Installed. Your app is ready to open."
+      },
+      "timeout": 90
+    },
+    {
+      "op": "capture",
+      "name": "01-installed"
+    },
+    {
+      "op": "restart"
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "search"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "status"
+      },
+      "equals": "Pins stay on this device. Public GitHub data; no account needed.",
+      "label": "Fresh component watchlist call succeeded; reading an empty list need not create a file."
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "text": "Projects worth following."
+      }
+    },
+    {
+      "op": "capture",
+      "name": "02-empty"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "search_submit"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "status"
+      },
+      "equals": "Enter a project name or owner/repo."
+    },
+    {
+      "op": "type",
+      "selector": {
+        "id": "search"
+      },
+      "text": "rust-lang/rust"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "search_submit"
+      }
+    },
+    {
+      "op": "type",
+      "selector": {
+        "id": "search"
+      },
+      "text": "tokio-rs/tokio"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "search_submit"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "text": "tokio-rs/tokio"
+      }
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "tokio-rs/tokio",
+        "within_id": "sidebar"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "tokio-rs/tokio"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "pin_project"
+      }
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio"
+        ],
+        "selected": "tokio-rs/tokio"
+      }
+    },
+    {
+      "op": "expect_repo_cache",
+      "full_name": "tokio-rs/tokio",
+      "field": "overview"
+    },
+    {
+      "op": "expect_repo_cache",
+      "full_name": "tokio-rs/tokio",
+      "field": "pulls"
+    },
+    {
+      "op": "capture",
+      "name": "03-first-pin"
+    },
+    {
+      "op": "type",
+      "selector": {
+        "id": "search"
+      },
+      "text": "rust-lang/rust"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "search_submit"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "text": "rust-lang/rust"
+      }
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "rust-lang/rust",
+        "within_id": "sidebar"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "rust-lang/rust"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "pin_project"
+      }
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio",
+          "rust-lang/rust"
+        ],
+        "selected": "rust-lang/rust"
+      }
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "move_up"
+      }
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "rust-lang/rust",
+          "tokio-rs/tokio"
+        ],
+        "selected": "rust-lang/rust"
+      }
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "move_down"
+      }
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio",
+          "rust-lang/rust"
+        ],
+        "selected": "rust-lang/rust"
+      }
+    },
+    {
+      "op": "capture",
+      "name": "04-reordered"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "tokio-rs/tokio",
+        "within_id": "sidebar"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "tokio-rs/tokio"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "rust-lang/rust",
+        "within_id": "sidebar"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "rust-lang/rust"
+    },
+    {
+      "op": "expect_repo_cache",
+      "full_name": "rust-lang/rust",
+      "field": "overview"
+    },
+    {
+      "op": "expect_repo_cache",
+      "full_name": "rust-lang/rust",
+      "field": "pulls"
+    },
+    {
+      "op": "expect_stable_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "rust-lang/rust",
+      "seconds": 3
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "releases_tab"
+      }
+    },
+    {
+      "op": "expect_repo_cache",
+      "full_name": "rust-lang/rust",
+      "field": "releases"
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "releases_tab"
+      },
+      "equals": "\u25cf Releases"
+    },
+    {
+      "op": "capture",
+      "name": "05-releases"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "activity_tab"
+      }
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "refresh_project"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "rust-lang/rust"
+    },
+    {
+      "op": "capture",
+      "name": "06-refreshed"
+    },
+    {
+      "op": "restart"
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "rust-lang/rust",
+      "timeout": 60
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio",
+          "rust-lang/rust"
+        ],
+        "selected": "rust-lang/rust"
+      }
+    },
+    {
+      "op": "capture",
+      "name": "07-restart-persistence"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "unpin_project"
+      }
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio"
+        ],
+        "selected": "tokio-rs/tokio"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "tokio-rs/tokio"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "unpin_project"
+      }
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [],
+        "selected": null
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "text": "Projects worth following."
+      }
+    },
+    {
+      "op": "capture",
+      "name": "08-unpinned-empty"
+    },
+    {
+      "op": "restart"
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "search"
+      }
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [],
+        "selected": null
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "text": "Projects worth following."
+      }
+    },
+    {
+      "op": "capture",
+      "name": "09-empty-persistence"
+    }
+  ]
+}
