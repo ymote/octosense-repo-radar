@@ -64,9 +64,13 @@ assigning a UX score. `passed` means only that the recorded scenario passed.
 It does not prove physical input, model answers, external-browser navigation,
 Android, chart support in an older host, or public install/update acceptance.
 
-After publication, use `--public-catalog <genuine-mirror>` instead of
-`--dev-fixture`; the driver verifies `catalog-v2.json` and supplies no test trust
-anchor. Use `--host-kind released` only for a verified downloaded executable.
+For a protected catalog dry run, use `--public-catalog <genuine-mirror>
+--catalog-scope github-dry-run` instead of `--dev-fixture`. After public
+publication, use `--catalog-scope github-public`. Both verify `catalog-v2.json`
+and supply no test trust anchor. A valid envelope can come from a dry run, so
+the driver always leaves `public_publication_proof` false; the separate public
+publication/readback receipt establishes that fact. Use `--host-kind released`
+only for a verified downloaded executable.
 Attach the separate release-download and GitHub publication receipts. A single
 install run does not establish update compatibility; preserve a first-version
 profile and exercise an actual second release in a dedicated update scenario.
@@ -94,5 +98,9 @@ RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供�
 失败会保留驱动和场景原始字节、日志、截图和 receipt，不覆盖失败记录。自动通过不等于视觉 UX
 验收；仍需审视实际截图，也不代表手机、模型回答、外部浏览器或公开更新已验证。
 
-正式发布后改用 `--public-catalog`，保留下载哈希和 GitHub 证明，独立验证安装及
+受保护的目录试运行使用 `--public-catalog <genuine-mirror>
+--catalog-scope github-dry-run`；正式发布后改用 `--catalog-scope github-public`。
+两者均验证真实 `catalog-v2.json`，不提供测试信任锚点。有效证明也可能来自试运行，
+因此驱动始终保留 `public_publication_proof: false`；公开发布事实须由独立发布及下载
+回读 receipt 证明。保留下载哈希和 GitHub 证明，独立验证安装及
 第二版本更新；不能把私有开发夹具的签名或 receipt 当作正式发布证明。

@@ -14,6 +14,15 @@ import native_dev_fixture as fixture
 
 
 class HarnessTests(unittest.TestCase):
+    def test_authentic_envelope_requires_explicit_publication_scope(self):
+        self.assertEqual(native.catalog_scope(True, None), "private-development")
+        self.assertEqual(native.catalog_scope(False, "github-dry-run"), "github-dry-run")
+        self.assertEqual(native.catalog_scope(False, "github-public"), "github-public")
+        with self.assertRaisesRegex(AssertionError, "explicitly"):
+            native.catalog_scope(False, None)
+        with self.assertRaisesRegex(AssertionError, "only"):
+            native.catalog_scope(True, "github-public")
+
     def test_repeated_project_name_requires_scoped_selector(self):
         rows = [
             {"i": "sidebar", "r": [0, 0, 280, 600], "window_id": 1},

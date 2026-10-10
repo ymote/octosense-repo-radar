@@ -5,7 +5,8 @@ All actions are native instrument input. Assertions inspect actual widgets or
 the Rust component's state inside this fresh profile. No app source injection,
 model configuration, credential access, approval-state writes or global input.
 Every run needs a new output directory; failures are retained, never rewritten.
-Developer catalogs and GitHub-verified catalog runs are explicitly distinguished.
+Developer catalogs, protected dry runs and published catalogs are distinguished.
+An authentic catalog envelope alone never proves public publication.
 """
 import argparse
 import hashlib
@@ -29,6 +30,15 @@ def require(value, message):
     if not value:
         raise AssertionError(message)
     return value
+
+
+def catalog_scope(development, requested):
+    if development:
+        require(requested is None, "Catalog scope applies only to --public-catalog")
+        return "private-development"
+    require(requested in ("github-verified", "github-dry-run", "github-public"),
+            "Set --catalog-scope explicitly for a genuine catalog mirror")
+    return requested
 
 
 def json_pointer(value, pointer):
@@ -325,9 +335,12 @@ def main():
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--dev-fixture", type=Path, help="fixture.json from native_dev_fixture.py")
     source.add_argument("--public-catalog", type=Path, help="Genuine catalog-v2.json mirror; no trust override")
+    parser.add_argument("--catalog-scope", choices=["github-verified", "github-dry-run", "github-public"],
+                        help="Required with --public-catalog; a scope label is not publication proof")
     parser.add_argument("--scenario", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
+    scope = catalog_scope(bool(args.dev_fixture), args.catalog_scope)
     require(sys.platform == "darwin", "Only macOS native acceptance is implemented")
     binary, hub, out = args.host.resolve(strict=True), args.hub.resolve(strict=True), args.out.resolve()
     repository = Path(__file__).resolve().parents[1]
@@ -347,7 +360,7 @@ def main():
                "host_sha256": sha(binary), "hub_sha256": sha(hub), "scenario_sha256": sha(out / "scenario.json"),
                "harness_sha256": sha(harness / "native_acceptance.py"),
                "harness_support_sha256": sha(harness / "native_dev_fixture.py"),
-               "catalog_scope": "private-development" if args.dev_fixture else "github-verified",
+               "catalog_scope": scope,
                "public_publication_proof": False, "model_or_credentials_configured": False,
                "input": "Makepad instrument synthetic native events", "visual_review": "pending",
                "actions": actions, "checks": checks}
