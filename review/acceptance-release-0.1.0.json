@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "kind": "sealed-release-native-acceptance",
+  "status": "passed",
+  "app_id": "org.ymote.reporadar",
+  "version": "0.1.0",
+  "source_commit": "ec202f7d6c8a192a80353a1640c19786db3f77e1",
+  "release_url": "https://github.com/ymote/octosense-repo-radar/releases/tag/v0.1.0",
+  "publisher_run": "https://github.com/ymote/octosense-repo-radar/actions/runs/38088072936",
+  "pack_sha256": "54ed1fe4fc2d885defe5fe9f8a507f3ac29104629d9c10e4b0f597de35b63f83",
+  "bundle_blake3": "90463f61990f62f1610bbcd9e3be76b7ca4bd046c05c9f2c222cbd92267bf136",
+  "component_sha256": "d0ee1835711ed4b1c952f564789d96c160d02035b1d2104db1388e6affdbc757",
+  "installed_bundle_files_match_sealed_release": true,
+  "installed_file_count": 9,
+  "catalog": {
+    "scope": "github-dry-run",
+    "candidate_pr": "https://github.com/OctoSense-org/OctoSense-App-Hub/pull/203",
+    "candidate_commit": "cd583a1609a86fb551a15288a9102f7117056a0b",
+    "workflow_run": "https://github.com/OctoSense-org/OctoSense-App-Hub/actions/runs/38088740791",
+    "sequence": 16,
+    "payload_sha256": "83867e6f8197dff3d7fb630ba50a408a44322c53fa03c619a6fd01fcba0c91bf",
+    "envelope_sha256": "5182822c8ac846dfd2a6dd7ec8afab87acd3d0a5a8d99ef13724b46976f0756b",
+    "native_verification": "passed",
+    "public_catalog_still_sequence": 15,
+    "public_publication_proof": false
+  },
+  "host": {
+    "kind": "development",
+    "source_commit": "bb2ac0ac8b2457529ffd29a366df9019012c1c08",
+    "binary_sha256": "817776cd2de08922badbcbb78728ec71a66d4e9d5c223debc04956110034c927",
+    "unchanged": true
+  },
+  "native": {
+    "steps_passed": 94,
+    "steps_total": 94,
+    "receipt_sha256": "9d15f6791d82e45bbaf4e78a414e3730dd00fbfcfa34e15da2ccdebcbeb34333",
+    "harness_source_commit": "17ca90558b130cb5a633f46d0cf68619097fd175",
+    "harness_sha256": "f6a6fd95db80f7ad11955d58e325c514438bb1a8335f582d54eb81b02a4cd186",
+    "scenario_sha256": "75323ddd0b060731147151009196df5b440169ecf07dffd8b5b8e39f6abbb29b",
+    "input": "Makepad instrument synthetic native events",
+    "hidden_sessions": 5,
+    "all_sessions_exit_zero": true,
+    "checks": [
+      "App Hub UI install from genuinely verified GitHub catalog envelope without test trust anchor",
+      "Real anonymous GitHub HTTPS from the sealed Rust Wasm component",
+      "Search, pin, select, reorder, refresh and release cache",
+      "Native D3BarChart within activity viewport",
+      "Glance summary publication",
+      "Selected repository and pin order survive restarts",
+      "Unpin and empty watchlist survive restart"
+    ],
+    "model_or_credentials_configured": false
+  },
+  "visual_review": {
+    "scope": "Native app drawable screenshots; no OS screenshot",
+    "reviewed": {
+      "03-first-pin.png": "17406ff35eb6116800fcfa651a2f3e0bb537d3cbc069b7b430e33d410b966d4f",
+      "05-releases.png": "1b46ba140ce8399c9e5e9ae6566f3a14e1ba868624bb4f8569f3e5e2ae058adb",
+      "06a-glance-published.png": "5fe0b4e16d9d38ff5222319967e6fa2326353280edaf79b1996733b5e852026f",
+      "07-restart-persistence.png": "c3353b476b68a1cb2ca00ac7f1d5074bd42ee69f1ac2dad9a66a1f22305baa02",
+      "09-empty-persistence.png": "b3ef43671bb541d9cf3c44678279c6a21164fa72581bc019c45d4522e64aefbd"
+    },
+    "findings": [
+      "Native chart labels and bars are visible inside the activity scroll surface.",
+      "Release content, selected watchlist row, Glance summary and empty state are readable.",
+      "Restart captures establish restored selection/empty state; asynchronous content may still show a loading label in those frames."
+    ],
+    "chart_rect": [
+      383,
+      369,
+      643,
+      160
+    ],
+    "activity_viewport_rect": [
+      383,
+      357,
+      643,
+      225
+    ]
+  },
+  "not_verified": [
+    "Compatible public host download and install",
+    "Public catalog publication/readback",
+    "Second-version update",
+    "Live model or app-agent answers",
+    "Human physical input",
+    "Deterministic out-of-order network completion",
+    "External browser navigation",
+    "Android, Linux and Windows acceptance",
+    "Glance Open project route and Chat draft retention on this exact sealed component"
+  ]
+}

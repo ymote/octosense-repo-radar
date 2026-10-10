@@ -4,10 +4,13 @@ A public GitHub project watchlist for OctoSense. Search projects, pin and reorde
 up to 100 favorites, inspect recent pull requests and releases, and return to the same saved
 list after restarting. Pinning is local; it does not star the project on GitHub.
 
-This is a work in progress. The bundle is not yet published in App Hub, and
-released-host and public-catalog acceptance are still pending. Development
-acceptance passed 94 native steps; Glance routing and unsent Chat input were also
-checked. These results do not establish live model answers or public installation. Do not treat a source build as a release.
+[Version 0.1.0](https://github.com/ymote/octosense-repo-radar/releases/tag/v0.1.0)
+is published on GitHub. App Hub admission is tracked in
+[submission #202](https://github.com/OctoSense-org/OctoSense-App-Hub/issues/202).
+The exact sealed release passed 94 native steps on a development host using a
+verified catalog rehearsal. A compatible desktop release and public-store
+installation are still pending. These results do not establish live model
+answers or public installation.
 
 ## Architecture
 
@@ -66,4 +69,5 @@ issue and catalog review. Pushing a tag alone does not make the app discoverable
 
 See [PRIVACY.md](PRIVACY.md) for network use, local storage and optional chat.
 
-Development evidence and its limits are recorded in [review/acceptance-2026-10-10.json](review/acceptance-2026-10-10.json).
+Evidence and its limits: [source development checks](review/acceptance-2026-10-10.json)
+and [exact sealed-release checks](review/acceptance-release-0.1.0.json).
