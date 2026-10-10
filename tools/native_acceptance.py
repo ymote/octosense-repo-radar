@@ -32,7 +32,10 @@ def require(value, message):
     return value
 
 
-def catalog_scope(development, requested):
+def catalog_scope(development, requested, public_store=False):
+    if public_store:
+        require(not development and requested is None, "Public store uses the host's default catalog, without a scope override")
+        return "github-public"
     if development:
         require(requested is None, "Catalog scope applies only to --public-catalog")
         return "private-development"
@@ -289,7 +292,8 @@ class Native:
         self.closed = True
 
 
-def environment(out, catalog, anchor=None):
+def environment(out, catalog=None, anchor=None):
+    require(catalog is not None or anchor is None, "A trust anchor requires an explicit development catalog")
     env = {k: os.environ[k] for k in ("PATH", "HOME", "LANG", "LC_ALL", "SHELL") if k in os.environ}
     for var, directory in {"OCTOSENSE_HOME": "shell", "OCTOS_APP_CORE_DIR": "kernel", "OCTOSENSE_APP_DATA": "apps",
                            "RINX_DATA_DIR": "rinx", "ROBRIX_DATA_DIR": "robrix", "XDG_CONFIG_HOME": "config",
@@ -297,8 +301,9 @@ def environment(out, catalog, anchor=None):
         path = out / "profile" / directory
         path.mkdir(mode=0o700, parents=True, exist_ok=False)
         env[var] = str(path)
-    env.update(OCTOSENSE_HUB=str(catalog), OCTOSENSE_HUB_CATALOG="legacy" if anchor else "github-v2",
-               OCTOSENSE_MAIL_VAULT="file", OCTOSENSE_LLM_VAULT="file", OCTOSENSE_SECRETS="file")
+    env.update(OCTOSENSE_MAIL_VAULT="file", OCTOSENSE_LLM_VAULT="file", OCTOSENSE_SECRETS="file")
+    if catalog is not None:
+        env.update(OCTOSENSE_HUB=str(catalog), OCTOSENSE_HUB_CATALOG="legacy" if anchor else "github-v2")
     if anchor:
         env["OCTOSENSE_HUB_ANCHOR"] = anchor
     return env
@@ -335,12 +340,19 @@ def main():
     source = parser.add_mutually_exclusive_group(required=True)
     source.add_argument("--dev-fixture", type=Path, help="fixture.json from native_dev_fixture.py")
     source.add_argument("--public-catalog", type=Path, help="Genuine catalog-v2.json mirror; no trust override")
+    source.add_argument("--public-store", action="store_true", help="Use the released host's built-in public store without catalog overrides")
+    parser.add_argument("--expected-catalog-sha256", help="Required with --public-store; from the separate public publication/readback receipt")
     parser.add_argument("--catalog-scope", choices=["github-verified", "github-dry-run", "github-public"],
                         help="Required with --public-catalog; a scope label is not publication proof")
     parser.add_argument("--scenario", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    scope = catalog_scope(bool(args.dev_fixture), args.catalog_scope)
+    scope = catalog_scope(bool(args.dev_fixture), args.catalog_scope, args.public_store)
+    if args.public_store:
+        require(args.host_kind == "released", "Public-store acceptance requires a verified released host")
+        require(re.fullmatch(r"[0-9a-f]{64}", args.expected_catalog_sha256 or ""), "Expected public catalog hash is required")
+    else:
+        require(args.expected_catalog_sha256 is None, "Expected catalog hash applies only to --public-store")
     require(sys.platform == "darwin", "Only macOS native acceptance is implemented")
     binary, hub, out = args.host.resolve(strict=True), args.hub.resolve(strict=True), args.out.resolve()
     repository = Path(__file__).resolve().parents[1]
@@ -375,13 +387,19 @@ def main():
             require(sha(catalog / "catalog.json") == fixture["catalog_sha256"], "Developer catalog changed")
             receipt["fixture_sha256"] = sha(args.dev_fixture)
             receipt["source_files_sha256"] = fixture["source_files_sha256"]
+        elif args.public_store:
+            catalog = None
+            receipt["catalog_origin"] = "host-default-public-store"
+            receipt["catalog_overrides"] = False
+            receipt["expected_catalog_sha256"] = args.expected_catalog_sha256
         else:
             catalog = args.public_catalog.resolve(strict=True)
             verified = subprocess.run([str(hub), "catalog-verify", str(catalog / "catalog-v2.json")], capture_output=True, text=True, timeout=120)
             (out / "catalog-verification.log").write_text(verified.stdout + verified.stderr)
             require(verified.returncode == 0, "Public catalog proof verification failed")
         env = environment(out, catalog, anchor)
-        receipt["catalog_sha256"] = sha(catalog / ("catalog.json" if anchor else "catalog-v2.json"))
+        if catalog is not None:
+            receipt["catalog_sha256"] = sha(catalog / ("catalog.json" if anchor else "catalog-v2.json"))
         steps = json.loads((out / "scenario.json").read_text())["steps"]
         require(isinstance(steps, list) and 0 < len(steps) <= 300, "Scenario must contain 1–300 bounded steps")
         session = 0
@@ -502,6 +520,16 @@ def main():
                            "seconds": round(time.monotonic()-started, 3)})
             (out / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
         ui.check_logs()
+        if args.public_store:
+            cached = Path(env["OCTOSENSE_APP_DATA"]) / "catalog-v2.json"
+            require(cached.is_file() and not cached.is_symlink(), "Host did not retain a public catalog")
+            require(sha(cached) == args.expected_catalog_sha256, "Host catalog differs from the independently published catalog; preserve this run and investigate")
+            evidence = out / "host-public-catalog-v2.json"
+            shutil.copyfile(cached, evidence)
+            verified = subprocess.run([str(hub), "catalog-verify", str(evidence)], capture_output=True, text=True, timeout=120)
+            (out / "catalog-verification.log").write_text(verified.stdout + verified.stderr)
+            require(verified.returncode == 0, "Host public catalog proof verification failed")
+            receipt["catalog_sha256"] = sha(evidence)
         state = component_state(Path(env["OCTOSENSE_APP_DATA"]))
         if state is not None:
             (out / "final-component-state.json").write_text(json.dumps(state, indent=2) + "\n")

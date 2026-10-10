@@ -23,6 +23,25 @@ class HarnessTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "only"):
             native.catalog_scope(True, "github-public")
 
+    def test_public_store_scope_cannot_relabel_a_mirror(self):
+        self.assertEqual(native.catalog_scope(False, None, public_store=True), "github-public")
+        with self.assertRaisesRegex(AssertionError, "without a scope override"):
+            native.catalog_scope(False, "github-dry-run", public_store=True)
+        with self.assertRaises(AssertionError):
+            native.catalog_scope(True, None, public_store=True)
+
+    def test_public_store_uses_no_inherited_catalog_or_trust_configuration(self):
+        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {
+                "OCTOSENSE_HUB": "/untrusted/mirror", "OCTOSENSE_HUB_CATALOG": "legacy",
+                "OCTOSENSE_HUB_ANCHOR": "untrusted", "HTTPS_PROXY": "http://private-proxy"}):
+            env = native.environment(Path(folder))
+            for key in ("OCTOSENSE_HUB", "OCTOSENSE_HUB_CATALOG", "OCTOSENSE_HUB_ANCHOR", "HTTPS_PROXY"):
+                self.assertNotIn(key, env)
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(AssertionError, "explicit development catalog"):
+                native.environment(Path(folder), anchor="untrusted")
+            self.assertFalse((Path(folder) / "profile").exists())
+
     def test_repeated_project_name_requires_scoped_selector(self):
         rows = [
             {"i": "sidebar", "r": [0, 0, 280, 600], "window_id": 1},

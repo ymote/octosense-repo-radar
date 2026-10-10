@@ -71,6 +71,13 @@ and supply no test trust anchor. A valid envelope can come from a dry run, so
 the driver always leaves `public_publication_proof` false; the separate public
 publication/readback receipt establishes that fact. Use `--host-kind released`
 only for a verified downloaded executable.
+For the final ordinary-user path, use `--public-store` instead of either catalog
+option, with `--expected-catalog-sha256` from the independent public readback.
+This requires a released host and leaves every Hub origin/channel/trust override
+unset. The app must be found and installed from the host's built-in public store;
+afterward the driver verifies its cached catalog and compares its exact bytes
+with the expected public envelope. A concurrent catalog change fails the run
+and preserves the evidence. Do not use a mirrored dry run as this acceptance.
 Attach the separate release-download and GitHub publication receipts. A single
 install run does not establish update compatibility; preserve a first-version
 profile and exercise an actual second release in a dedicated update scenario.
@@ -104,3 +111,8 @@ RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供�
 因此驱动始终保留 `public_publication_proof: false`；公开发布事实须由独立发布及下载
 回读 receipt 证明。保留下载哈希和 GitHub 证明，独立验证安装及
 第二版本更新；不能把私有开发夹具的签名或 receipt 当作正式发布证明。
+
+最终普通用户流程使用 `--public-store` 和公开回读 receipt 中的
+`--expected-catalog-sha256`，不传任何目录选项。驱动要求已验证下载的发布宿主，
+不设置 Hub 来源、频道或信任覆盖。安装后验证宿主实际缓存的目录，逐字节匹配
+已发布目录；并发目录变化会使本次验收失败并保留证据，不能用镜像试运行代替。
