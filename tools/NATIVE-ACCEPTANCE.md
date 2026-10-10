@@ -68,6 +68,12 @@ timeout). Every failed observation is recorded. Other HTTP errors, native error
 responses and retry exhaustion remain failures; a retry is not an acceptance
 assertion or proof that the input succeeded.
 
+The post-install `scroll_until` step allows 90 seconds of read-only observation
+after its final permitted scroll, because installing is asynchronous. It sends
+no additional input and still fails unless the Installed notice appears. Other
+scroll steps have no observation timeout and fail when their scroll budget is
+exhausted. An explicit `timeout` must be greater than zero and at most 120 seconds.
+
 Every run has a new output directory. Its receipt binds the host, Hub, catalog,
 scenario and source hashes; records steps, screenshots, failure and cleanup;
 and preserves the driver/scenario bytes and first failing frame/log. Review screenshots separately before
@@ -135,6 +141,9 @@ RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供�
 `/snap`、`/s`、`/g` 遇到 HTTP 404 时才重试，最多八次，间隔 250 毫秒；每次请求
 仍有 25 秒超时。每次失败均保留记录，其他 HTTP 错误、原生错误响应及重试耗尽
 仍然失败。观察重试不能代替行为断言，也不能证明输入已成功。
+安装是异步操作，因此安装后的 `scroll_until` 在最后一次允许的滚动结束后，可只读
+观察 90 秒，不再发送输入；未出现 Installed 提示仍然失败。其他滚动步骤没有额外
+观察等待，耗尽次数即失败。显式 `timeout` 必须大于零且不超过 120 秒。
 失败会保留驱动和场景原始字节、日志、截图和 receipt，不覆盖失败记录。自动通过不等于视觉 UX
 验收；仍需审视实际截图，也不代表手机、模型回答、外部浏览器或公开更新已验证。
 

@@ -73,7 +73,8 @@
         "contains": "Installed. Your app is ready to open."
       },
       "dy": -500,
-      "max_scrolls": 8
+      "max_scrolls": 8,
+      "timeout": 90
     },
     {
       "op": "expect_widget",

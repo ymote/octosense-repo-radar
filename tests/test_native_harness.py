@@ -132,6 +132,57 @@ class HarnessTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "only"):
             native.catalog_scope(True, "github-public")
 
+    def scroll_case(self):
+        ui = self.instrument()
+        ui.call = Mock()
+        ui.check_logs = Mock()
+        surface = [{"i": "list", "r": [0, 0, 200, 300], "window_id": 1}]
+        installed = surface + [{"t": "Installed", "r": [10, 10, 100, 20], "window_id": 1}]
+        step = {"selector": {"id": "list"}, "until": {"text": "Installed"},
+                "max_scrolls": 1, "dy": -500}
+        return ui, surface, installed, step
+
+    def test_delayed_install_is_observed_after_last_scroll_without_extra_input(self):
+        ui, surface, installed, step = self.scroll_case()
+        step["timeout"] = 90
+        ui.rows = Mock(side_effect=[surface, surface, surface, installed])
+        with patch.object(native.time, "sleep"):
+            native.scroll_until(ui, step, ui.actions)
+        self.assertEqual(ui.call.call_count, 1)
+        self.assertEqual(ui.rows.call_count, 4)
+        self.assertEqual([a["op"] for a in ui.actions], ["scroll", "scroll_wait"])
+        self.assertEqual(ui.actions[-1]["timeout"], 90)
+        self.assertFalse(ui.actions[-1]["additional_input"])
+
+    def test_scroll_without_timeout_keeps_immediate_budget_failure(self):
+        ui, surface, installed, step = self.scroll_case()
+        ui.rows = Mock(side_effect=[surface, surface, installed])
+        with patch.object(native.time, "sleep"):
+            with self.assertRaisesRegex(AssertionError, "bounded scrolling"):
+                native.scroll_until(ui, step, ui.actions)
+        self.assertEqual(ui.call.call_count, 1)
+        self.assertEqual(ui.rows.call_count, 2)
+        self.assertEqual([a["op"] for a in ui.actions], ["scroll"])
+
+    def test_delayed_install_timeout_still_fails_without_extra_input(self):
+        ui, surface, _, step = self.scroll_case()
+        step["timeout"] = 90
+        ui.rows = Mock(return_value=surface)
+        with patch.object(native.time, "sleep"), patch.object(native.time, "monotonic", side_effect=[0, 0, 91]):
+            with self.assertRaisesRegex(TimeoutError, "did not settle"):
+                native.scroll_until(ui, step, ui.actions)
+        self.assertEqual(ui.call.call_count, 1)
+        self.assertEqual(ui.rows.call_count, 3)
+
+    def test_unbounded_scroll_observation_timeout_is_refused_before_input(self):
+        for timeout in (0, -1, 121, float("nan"), float("inf"), True, "90"):
+            with self.subTest(timeout=timeout):
+                ui, _, _, step = self.scroll_case()
+                step["timeout"] = timeout
+                with self.assertRaisesRegex(AssertionError, "observation timeout"):
+                    native.scroll_until(ui, step, ui.actions)
+                ui.call.assert_not_called()
+
     def test_public_store_scope_cannot_relabel_a_mirror(self):
         self.assertEqual(native.catalog_scope(False, None, public_store=True), "github-public")
         with self.assertRaisesRegex(AssertionError, "without a scope override"):

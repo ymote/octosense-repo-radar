@@ -105,6 +105,35 @@ def processes():
     return rows
 
 
+def scroll_until(ui, step, actions):
+    count = step.get("max_scrolls", 8)
+    dy = step.get("dy", 400)
+    timeout = step.get("timeout")
+    require(type(count) is int and 1 <= count <= 12 and type(dy) in (int, float)
+            and math.isfinite(dy) and 0 < abs(dy) <= 1000, "Unbounded scroll request")
+    require(timeout is None or (type(timeout) in (int, float) and math.isfinite(timeout)
+            and 0 < timeout <= 120), "Invalid scroll observation timeout")
+    for attempt in range(count + 1):
+        rows = ui.rows()
+        if select(rows, step["until"]):
+            return
+        if attempt == count:
+            require(timeout is not None, "Target did not become visible after bounded scrolling")
+            # Installation can finish after scrolling has stopped. Observe its
+            # result without repeating input or increasing the scroll budget.
+            actions.append({"op": "scroll_wait", "until": step["until"],
+                            "timeout": timeout, "additional_input": False})
+            ui.wait(lambda: select(ui.rows(), step["until"]), timeout=timeout)
+            return
+        row = select(rows, step["selector"])
+        require(row is not None, "Scroll surface disappeared")
+        x, y, width, height = row["r"]
+        ui.call("m", k="scroll", x=x+width/2, y=y+height/2,
+                w=row.get("window_id", row.get("w", 0)), dy=dy, wait=1)
+        actions.append({"op": "scroll", "selector": step["selector"], "dy": dy})
+        time.sleep(.15)
+
+
 class Native:
     def __init__(self, binary, env, out, name, target, actions):
         require(target in ("apphub", "hub:" + APP_ID), "Only App Hub and Repo Radar can launch")
@@ -515,25 +544,7 @@ def main():
                     ui.call("m", k="scroll", x=x+width/2, y=y+height/2, dy=step["dy"], wait=1)
                     actions.append({"op": op, "selector": step["selector"], "dy": step["dy"]})
                 elif op == "scroll_until":
-                    count = step.get("max_scrolls", 8)
-                    dy = step.get("dy", 400)
-                    require(type(count) is int and 1 <= count <= 12 and type(dy) in (int, float)
-                            and math.isfinite(dy) and 0 < abs(dy) <= 1000, "Unbounded scroll request")
-                    reached = False
-                    for attempt in range(count + 1):
-                        rows = ui.rows()
-                        if select(rows, step["until"]):
-                            reached = True
-                            break
-                        require(attempt < count, "Target did not become visible after bounded scrolling")
-                        row = select(rows, step["selector"])
-                        require(row is not None, "Scroll surface disappeared")
-                        x, y, width, height = row["r"]
-                        ui.call("m", k="scroll", x=x+width/2, y=y+height/2,
-                                w=row.get("window_id", row.get("w", 0)), dy=dy, wait=1)
-                        actions.append({"op": "scroll", "selector": step["selector"], "dy": dy})
-                        time.sleep(.15)
-                    require(reached, "Scroll target was not observed")
+                    scroll_until(ui, step, actions)
                 elif op == "wait":
                     seconds = step["seconds"]
                     require(isinstance(seconds, (int, float)) and 0 <= seconds <= 5, "Only short bounded observation waits allowed")
