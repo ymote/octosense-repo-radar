@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "kind": "sealed-app-release-native-acceptance",
+  "app_id": "org.ymote.reporadar",
+  "version": "0.1.2",
+  "status": "passed-within-development-host-and-signed-rehearsal-scope",
+  "release_url": "https://github.com/ymote/octosense-repo-radar/releases/tag/v0.1.2",
+  "source_commit": "e18eb6a88b74398c5df2472d6fd5c0a3d6a1d50b",
+  "publisher_workflow": "https://github.com/ymote/octosense-repo-radar/actions/runs/38094354008",
+  "pack_sha256": "62fb0262fa9139675abbd286f71d23efd385eb16697ec6341c12893d216067c3",
+  "bundle_blake3": "da4272cead19e613638d8381c47662ef4cff3716838c7e719916d779f3c9edf9",
+  "component_sha256": "d0ee1835711ed4b1c952f564789d96c160d02035b1d2104db1388e6affdbc757",
+  "rust_component": {
+    "bytes": 497521,
+    "kind": "component",
+    "exports": [
+      "radar-move",
+      "radar-overview",
+      "radar-pin",
+      "radar-pulls",
+      "radar-releases",
+      "radar-search",
+      "radar-select",
+      "radar-unpin",
+      "radar-watchlist"
+    ],
+    "linked_crates": 18,
+    "built_from_tag_by_github": true,
+    "unit_tests": 17,
+    "doctests": 1,
+    "fmt": "passed",
+    "clippy": "passed"
+  },
+  "downloaded_release_verification": {
+    "publisher_proof": "passed",
+    "intended_repository_identity": "passed",
+    "remote_tag": "passed",
+    "source_release_file_sets": "match",
+    "manifest_change": "expected defaults and publisher sealing only",
+    "rustsec_database_commit": "7eebec69c352c7191b1f13eb95dd510eeca5d1de",
+    "advisory_findings": 0,
+    "sealed_privacy_scan": {
+      "files": 9,
+      "patterns": [
+        "private-local-path",
+        "credential-marker",
+        "local-provider-config"
+      ],
+      "findings": []
+    }
+  },
+  "signed_catalog_rehearsal": {
+    "schema": 1,
+    "status": "passed",
+    "scope": "github-dry-run",
+    "workflow_run": "https://github.com/OctoSense-org/OctoSense-App-Hub/actions/runs/38094810540",
+    "candidate_commit": "0c1f23b70e0abbfc2d7dadef04fececbe005ba5a",
+    "payload_sha256": "9925772acb6995ed13e292f22e9f97dfdcb2ee397163007d85818e4ae4390b41",
+    "envelope_sha256": "fd5e66a90ada18b94aae531207ed47ed20e8b291a6a5d70f3a8be0d933f63faf",
+    "sequence": 16,
+    "exact_admitted_files_match": true,
+    "public_publication_proof": false
+  },
+  "host": {
+    "kind": "development",
+    "source_commit": "bb2ac0ac8b2457529ffd29a366df9019012c1c08",
+    "sha256": "817776cd2de08922badbcbb78728ec71a66d4e9d5c223debc04956110034c927"
+  },
+  "native_acceptance": {
+    "passed": 93,
+    "failed": 0,
+    "receipt_sha256": "c3a845be3ee87766496e8d6530bac4639f0e98207c15a69e216b2202761a719e",
+    "driver_commit": "3f9d799cacd67772466b81ce69e7bf813364bcb7",
+    "driver_sha256": "f968f023f4b84d506434201d2341773125cefe4817f8f2deafe0164534f5c264",
+    "scenario_sha256": "b5b9c9bd40f50a865641fcb44e58254d8dc37492c07fd90908be2b1e773735ac",
+    "harness_tests_passed": 24,
+    "installed_files_match_sealed_release": true,
+    "file_count": 9,
+    "input": "Makepad instrument synthetic native events; wait=0, separate state and pixels",
+    "real_network": "anonymous public GitHub via component WASI HTTPS",
+    "private_profile": true,
+    "model_configured": false,
+    "sessions_exited_normally": 5,
+    "remaining_descendants": 0,
+    "instrument_errors": 0,
+    "visual_review_sha256": "76dd8f5aec7b97aeedb40ce6a24c489ccacba39f6ced36c5fbf84f33d2a618a0",
+    "visual_review": "separate agent reviewed six actual native captures"
+  },
+  "screenshots": {
+    "agent-consent-apphub": "7103a0c1a4c2ee4145ba9d9bbfda9d76c90ff163afb51d535f66ae46342969fe",
+    "agent-consent-apphub-refused": "020e17d6f9d8825d38c586ff4247bb6d8a4b7957a0f4e4962354e7e9fbc79dc9",
+    "01-installed": "354ba8f90b84e5762dbeb1689253b94c930cf2459bafa1cabc4e3b59921eae44",
+    "02-empty": "75f9f13a9940ee491e4468661a776232feb856efee80e97cd4da3d3ce58f2b1f",
+    "03-first-pin": "b88484f6b7ee60d4a88b65ec95449367c9cb6de01a72cb446f4f23a0eb3313b2",
+    "04-reordered": "95c5dc62aa21627e9858b6bc80c45ea7e3362bc42509d5f9fdb6876182c6583d",
+    "05-releases": "a90f2135b08af472fad66209673180e8f5fd71ef7e4b9620d78522a7d18e6486",
+    "06-refreshed": "c8b76802ce328c952fa05043a97a3d44723aa8578c07a4fb92032e144053e317",
+    "06a-glance-published": "c207a0bcef8f210d8706d15b086cd712184d1e71e17c44356bbf446f9e22b6d3",
+    "06a-glance-closed": "7b8552dff5c4908af806efd35896203f69fc8967e6cbae5eed2d6ce3f7592097",
+    "06b-search-pin-selection-restored": "7cb1a2ed966a3ff6f6742437b9d2080ce5ec1023ddd929a87e0266bdeebb06fc",
+    "07-restart-persistence": "e96516ae9cf21a3a20c3827aab3e46bc0dadaa96f0c0eaa865c7996303e445c7",
+    "08-unpinned-empty": "01c3095a59cdc59260cd34a8bbee713e29d3ab2ce100752d9734b4c33fae6170",
+    "09-empty-persistence": "05b608ea3c9078ba4383d3bc0d9020eb4391886163d4d47dfc75b4e72ad4abb4"
+  },
+  "prior_failed_run": {
+    "receipt_sha256": "92798df37aa45b0705de1f1d4d38a1adbe1dce40f76a8dc60e2393a901b18c8a",
+    "error": "Test scrolled before asynchronous install completion; installed files matched release",
+    "fix": "Bounded read-only observation after scrolling; original failure preserved",
+    "host_stall_ms": 9811
+  },
+  "limitations": [
+    "Development host, not a released package; compatible RC5 build pending",
+    "Public catalog publication and ordinary public-store installation pending",
+    "Optional live model replies and agent tool execution unverified and disclosed in listing",
+    "No second-version update, external-browser activation, physical input or non-macOS acceptance claim",
+    "No performance pass: nine development-host UI-hang samples of 283\u20131013 ms; prior failed run also recorded a 9811 ms installation stall",
+    "Restart screenshot captures loading activity; empty screenshot captures opening footer; persisted watchlist state was checked independently"
+  ],
+  "public_publication_proof": false
+}

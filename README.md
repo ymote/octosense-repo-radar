@@ -4,21 +4,23 @@ A public GitHub project watchlist for OctoSense. Search projects, pin and reorde
 up to 100 favorites, inspect recent pull requests and releases, and return to the same saved
 list after restarting. Pinning is local; it does not star the project on GitHub.
 
-[Version 0.1.0](https://github.com/ymote/octosense-repo-radar/releases/tag/v0.1.0)
+[Version 0.1.2](https://github.com/ymote/octosense-repo-radar/releases/tag/v0.1.2)
 is published on GitHub. App Hub admission is tracked in
 [submission #202](https://github.com/OctoSense-org/OctoSense-App-Hub/issues/202).
-The exact sealed release passed 94 native steps on a development host using a
-verified catalog rehearsal. A compatible desktop release and public-store
+The exact sealed release passed 93 native steps on a development host using a
+GitHub-signed catalog rehearsal. A compatible desktop release and public-store
 installation are still pending. These results do not establish live model
 answers or public installation.
 
-The source prepares **0.1.2**, carrying the 0.1.1 UX revision following OctoSense App Flow:
+Version **0.1.2** carries the 0.1.1 UX revision following OctoSense App Flow:
 compact watchlist rows, a complete chart on the opening screen, one consistent
 Activity / Releases / Chat row, formatted release notes, and separate unsent
 chat drafts for each project. The historical 0.1.0 functional checks are not
 visual approval of this revision. The [UX review](review/ux-0.1.1.json) records
-native checks, repaired visual defects and remaining limits. Public admission
-still needs a verified sealed release and a compatible host. Version 0.1.2
+native checks, repaired visual defects and remaining limits. The
+[sealed 0.1.2 acceptance](review/acceptance-release-0.1.2.json) records the
+verified publisher proof, compiled component and complete native flow.
+Public admission still needs the compatible released host. Version 0.1.2
 adds the listing's explicit disclosure that live model replies and agent tool
 execution remain unverified; its runtime code is identical to 0.1.1.
 
@@ -62,7 +64,7 @@ Native charts use Makepad D3. The current manifest requires `host-api-v1` and
 `charts.d3@1` alongside Wasm component support, so RC4 cannot install it. Desktop RC4
 loads the Rust component, but live acceptance found that its WASI HTTPS path
 panics when choosing a TLS provider. It also does not register D3. The HTTPS fix
-and D3 host addition are being validated together before a compatible release;
+and D3 host addition are merged, and the compatible RC5 package is being built;
 RC4 is not a working networking baseline. The text fallback is defensive UI,
 not a claim of older-host support. Android is not claimed.
 
@@ -102,5 +104,6 @@ issue and catalog review. Pushing a tag alone does not make the app discoverable
 
 See [PRIVACY.md](PRIVACY.md) for network use, local storage and optional chat.
 
-Evidence and its limits: [source development checks](review/acceptance-2026-10-10.json)
-and [exact sealed-release checks](review/acceptance-release-0.1.0.json).
+Evidence and its limits: [current sealed-release checks](review/acceptance-release-0.1.2.json),
+[source development checks](review/acceptance-2026-10-10.json), and
+[historical 0.1.0 checks](review/acceptance-release-0.1.0.json).
