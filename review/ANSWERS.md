@@ -1,6 +1,6 @@
 # Repo Radar review answers
 
-Candidate: `org.ymote.reporadar` 0.1.0. These are the author's answers, not an
+Candidate: `org.ymote.reporadar` 0.1.1. These are the author's answers, not an
 App Hub approval or a claim that publication and released-host acceptance passed.
 Run `hub scan bundle --packet build/review.json` on the final stamped bundle.
 
@@ -11,7 +11,11 @@ Run `hub scan bundle --packet build/review.json` on the final stamped bundle.
    Pins are local, not GitHub stars. The UI labels PRs as a recent sample and star
    changes as observed comparisons, not daily growth. No background monitoring,
    private repository access or complete activity history is advertised.
-   Development acceptance passed 94 native steps against live public GitHub.
+   The historical 0.1.0 release passed 94 native steps against live public GitHub.
+   The redesigned 0.1.1 has separate scoped evidence in `ux-0.1.1.json`:
+   an earlier 93-step flow, final-source rate-limit and interaction checks,
+   and independently reviewed native screenshots. These checks do not replace
+   acceptance of the new sealed release.
    The first released-host test found a WASI HTTPS initialization bug in RC4;
    the passing development host includes its fix and D3 registration.
 
@@ -64,10 +68,10 @@ Run `hub scan bundle --packet build/review.json` on the final stamped bundle.
    The app has no email, account-write or GitHub-write tool. No tool uses an
    app-supplied confirmation sheet. Live model execution is not yet verified.
 
-8. **Route: human-review.** Component tests, 94 native development steps,
-   Glance route activation, Chat draft/focus checks and screenshot review pass;
-   see `acceptance-2026-10-10.json` for hashes and scope. A compatible published
-   host, exact GitHub-attested release verification and public catalog
-   installation remain outstanding. Keep production admission pending those
-   checks. A real second-version update and live model behavior are separately
-   unverified; neither is implied by first-version development acceptance.
+8. **Route: human-review.** See `ux-0.1.1.json` for the current source hashes,
+   native interaction and visual checks, retained failures and exact limitations.
+   Before production publication, verify the new GitHub-attested release and
+   execute that sealed component, then confirm a compatible published host.
+   Public-catalog installation follows publication and must be recorded
+   separately. A real second-version update and live model behavior are
+   separately unverified; neither is implied by source acceptance or attestation.
