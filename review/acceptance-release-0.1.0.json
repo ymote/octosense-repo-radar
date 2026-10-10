@@ -86,7 +86,101 @@
     "Human physical input",
     "Deterministic out-of-order network completion",
     "External browser navigation",
-    "Android, Linux and Windows acceptance",
-    "Glance Open project route and Chat draft retention on this exact sealed component"
-  ]
+    "Android, Linux and Windows acceptance"
+  ],
+  "sealed_followup": {
+    "status": "passed",
+    "scope": "Observed native Glance Open project routing and unsent Chat draft retention on the exact sealed component; development host and GitHub dry-run catalog",
+    "receipt_sha256": "297244d8dc829bba86992cd8fda3ef0e1421452edd3732311a924d6183eb99ea",
+    "prior_native_receipt_sha256": "9d15f6791d82e45bbaf4e78a414e3730dd00fbfcfa34e15da2ccdebcbeb34333",
+    "host_sha256": "817776cd2de08922badbcbb78728ec71a66d4e9d5c223debc04956110034c927",
+    "component_sha256": "d0ee1835711ed4b1c952f564789d96c160d02035b1d2104db1388e6affdbc757",
+    "installed_bundle_files_match_sealed_release": true,
+    "installed_file_count": 9,
+    "catalog_scope": "github-dry-run",
+    "catalog_sha256": "5182822c8ac846dfd2a6dd7ec8afab87acd3d0a5a8d99ef13724b46976f0756b",
+    "public_publication_proof": false,
+    "input": "Makepad synthetic native events",
+    "checks": {
+      "pinned_glance_opens_exact_project": {
+        "before": "tokio-rs/tokio",
+        "after": "rust-lang/rust",
+        "observed_button_logical_point": [
+          1147,
+          289
+        ]
+      },
+      "draft_survives_activity_release_chat_tab_switches": true,
+      "draft_survives_refresh": true,
+      "focused_input_accepts_later_text_without_another_click": true,
+      "unpinned_glance_opens_preview_without_repinning": true,
+      "same_draft_survives_glance_reopen": true,
+      "final_pins": [],
+      "final_selected_repo_id": null,
+      "final_pin_action": "+ Pin project",
+      "optional_agent_declined_through_native_ui": true,
+      "model_tested": false
+    },
+    "evidence": {
+      "02-sealed-tokio": {
+        "snapshot_sha256": "ffc052c4f394907302c9489e9444fddd145739391bec889d16b593ac6ab3e9ab",
+        "png_sha256": "0a21184d1b462ce1fa9522c8343af0626c47219ff90c2a984ba01ae419ecd088"
+      },
+      "03a-sealed-glance-settled": {
+        "snapshot_sha256": "ffc052c4f394907302c9489e9444fddd145739391bec889d16b593ac6ab3e9ab",
+        "png_sha256": "106dbb2a10073ed207503868f7eb759f88631e4faab1cca19a3c0b1bc25afa16"
+      },
+      "04-sealed-rust-route-open": {
+        "snapshot_sha256": "4be63379b52ce45b274d038d4af7b7eabf64011b8615001de2f68c772fbbacc4",
+        "png_sha256": "09ab63496362830777041d7cc0f8c7a9f2f16be3106ce56a4e7f8295561da826"
+      },
+      "05a-sealed-consent-settled": {
+        "snapshot_sha256": "b86313b4a73806cb37cae90074a4f1ed858716af0072bee7b79a0ee39a0cec9f",
+        "png_sha256": "dd629b5253eb7382b3fddd66a87e2e9e5c32645a1da86eeb575ce4e5aae365a7"
+      },
+      "06-sealed-chat-draft": {
+        "snapshot_sha256": "431b7d2ed960646543712d06785f13b6485e37bdf86f0f1b567ed917f5531d79",
+        "png_sha256": "59665748b405b25c5a7bb2e54e80ee7a089f1c0e216ca38a689d8c010048bd25"
+      },
+      "07-sealed-draft-after-tabs": {
+        "snapshot_sha256": "431b7d2ed960646543712d06785f13b6485e37bdf86f0f1b567ed917f5531d79",
+        "png_sha256": "9ad6e5ed01e69832926c8b914db83b5d280cde9e61b6454ea07cf95e193cdc57"
+      },
+      "08-sealed-chat-refresh": {
+        "snapshot_sha256": "a0c732a89ba09025601b3f32ac16b77b57774175c1331976f2959ad770e01f23",
+        "png_sha256": "718e7414148234089a26ed18d947f18a33bae749541854513ba830f134bcf1cf"
+      },
+      "09-sealed-focus-retained": {
+        "snapshot_sha256": "beb35ccaa59188340589d581524fa7bbec9c1c5736aba689517ff5aed56811b1",
+        "png_sha256": "1fb69cd77ba62ea32dd6bebde332e9acd3ce0389e5c2591c7f5d9b5a604d40c5"
+      },
+      "11-sealed-unpinned-glance": {
+        "snapshot_sha256": "b535536cbc11431e582b59848251690c66a0d91930650c3474989edb841b7fa2",
+        "png_sha256": "6998620aca14595d4487c504eadcc72e1ac24b52a430eed31e822831800f9ff3"
+      },
+      "13-sealed-draft-after-reopen": {
+        "snapshot_sha256": "bbf846ddd044b1370979b5665129d8683554bfffa77db72b26c4dd757616bd41",
+        "png_sha256": "92e32c460972a598a4cb4a70fadc1fcc053ec85dd1b79fe5e39c222c00f57424"
+      }
+    },
+    "final_state_sha256": "6a9f343e1c696170cc0add112a397a01ab0ce55550dc07b29ce9ff88dc23a729",
+    "consent_record_sha256": "e9fad165d4e94429ff859c21f29fdad22ac95c31de172f1c10c61eded699047c",
+    "visual_review": [
+      "Inspected the native Glance button and actual agent refusal prompt.",
+      "The full unsent draft is readable in the composer after refresh and after the unpinned Glance route.",
+      "Frame 12 was intermediate loading; final routing and draft assertions use frame 13."
+    ],
+    "cleanup": {
+      "sessions": 1,
+      "exit_code": 0,
+      "forced": false,
+      "remaining_descendants": 0,
+      "owned_pid_absent": true
+    },
+    "limits": [
+      "No model reply or Send action tested.",
+      "Draft retention covered one native session, not process restart.",
+      "Production catalog and compatible downloaded-host acceptance remain separate gates."
+    ]
+  }
 }
