@@ -57,6 +57,17 @@ brief redraw gaps (at most 0.5 seconds) before requiring the title again.
 Component unit tests
 cover controlled failure and rate-limit states separately.
 
+Native input uses `wait=0`: a hidden host can apply a click, key, text or scroll
+event and then fail its optional synchronous frame presentation. The harness
+dispatches each input once and checks its effects through separate state and
+pixel observations. An input HTTP error fails the step and is recorded with
+`input_replayed: false`; it never causes the input to be sent again.
+Only read-only `/snap`, `/s` and `/g` observations retry HTTP 404, for at most
+eight attempts with 250 ms between attempts (each request retains its 25-second
+timeout). Every failed observation is recorded. Other HTTP errors, native error
+responses and retry exhaustion remain failures; a retry is not an acceptance
+assertion or proof that the input succeeded.
+
 Every run has a new output directory. Its receipt binds the host, Hub, catalog,
 scenario and source hashes; records steps, screenshots, failure and cleanup;
 and preserves the driver/scenario bytes and first failing frame/log. Review screenshots separately before
@@ -118,6 +129,12 @@ Glance 发布后会自动打开面板；驱动通过正常 F9 快捷键关闭它
 320×160 逻辑像素，因此需要已注册 D3 的宿主。标题稳定性检查保留每次采样，
 出现其他项目标题立即失败；只容许不超过 0.5 秒的重绘缺失，之后必须重新看到正确标题。
 RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供程序 panic。
+原生输入使用 `wait=0`：隐藏宿主可能已经执行点击、按键、文字或滚动，却在可选的
+同步呈现阶段失败。驱动每次只发送一次输入，再独立检查状态及像素。输入的 HTTP
+错误使该步骤失败并记录 `input_replayed: false`，绝不自动重发输入。只有只读的
+`/snap`、`/s`、`/g` 遇到 HTTP 404 时才重试，最多八次，间隔 250 毫秒；每次请求
+仍有 25 秒超时。每次失败均保留记录，其他 HTTP 错误、原生错误响应及重试耗尽
+仍然失败。观察重试不能代替行为断言，也不能证明输入已成功。
 失败会保留驱动和场景原始字节、日志、截图和 receipt，不覆盖失败记录。自动通过不等于视觉 UX
 验收；仍需审视实际截图，也不代表手机、模型回答、外部浏览器或公开更新已验证。
 

@@ -1,4 +1,5 @@
 """Safety and evidence tests; these never launch a shell or use the network."""
+import io
 import json
 import os
 from pathlib import Path
@@ -6,7 +7,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
+import urllib.error
+import urllib.parse
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 import native_acceptance as native
@@ -14,6 +17,112 @@ import native_dev_fixture as fixture
 
 
 class HarnessTests(unittest.TestCase):
+    def instrument(self):
+        # Exercise the real transport methods without starting a shell/network.
+        ui = object.__new__(native.Native)
+        ui.child = Mock()
+        ui.child.poll.return_value = None
+        ui.next_process_check = float("inf")
+        ui.endpoint = "http://127.0.0.1:1"
+        ui.actions = []
+        ui.http = Mock()
+        return ui
+
+    def unavailable(self, route, status=404):
+        return urllib.error.HTTPError(
+            "http://127.0.0.1:1/" + route, status, "unavailable", {},
+            io.BytesIO(b"native frame unavailable"))
+
+    def test_applied_input_with_uncertain_response_is_never_replayed(self):
+        for route in ("click", "k", "t", "m"):
+            with self.subTest(route=route):
+                ui = self.instrument()
+                applied = []
+
+                def apply_then_fail(url, **_):
+                    applied.append(urllib.parse.urlparse(url))
+                    raise self.unavailable(route)
+
+                ui.http.open.side_effect = apply_then_fail
+                with patch.object(native.time, "sleep") as sleep:
+                    with self.assertRaises(urllib.error.HTTPError):
+                        ui.call(route, wait=1)
+                self.assertEqual(len(applied), 1)
+                self.assertEqual(ui.http.open.call_count, 1)
+                self.assertEqual(urllib.parse.parse_qs(applied[0].query)["wait"], ["0"])
+                sleep.assert_not_called()
+                self.assertEqual(ui.actions, [{"op": "instrument_error", "route": route,
+                    "status": 404, "body": "native frame unavailable", "input_replayed": False}])
+
+    def test_read_only_observation_can_recover_and_records_each_failure(self):
+        for route in ("snap", "s"):
+            with self.subTest(route=route):
+                ui = self.instrument()
+                ui.http.open.side_effect = [self.unavailable(route), self.unavailable(route),
+                                            io.BytesIO(b'{"observed":"settled"}')]
+                with patch.object(native.time, "sleep") as sleep:
+                    self.assertEqual(ui.call(route), {"observed": "settled"})
+                self.assertEqual(ui.http.open.call_count, 3)
+                self.assertEqual(sleep.call_count, 2)
+                self.assertEqual(len(ui.actions), 2)
+                self.assertTrue(all(a["status"] == 404 and a["route"] == route
+                                    and a["input_replayed"] is False for a in ui.actions))
+
+    def test_read_only_observation_exhaustion_fails_after_eight_attempts(self):
+        for route in ("snap", "s"):
+            with self.subTest(route=route):
+                ui = self.instrument()
+                ui.http.open.side_effect = [self.unavailable(route) for _ in range(8)]
+                with patch.object(native.time, "sleep") as sleep:
+                    with self.assertRaises(urllib.error.HTTPError):
+                        ui.call(route)
+                self.assertEqual(ui.http.open.call_count, 8)
+                self.assertEqual(sleep.call_count, 7)
+                self.assertEqual(len(ui.actions), 8)
+
+    def test_capture_recovery_still_collects_separate_state_and_geometry(self):
+        ui = self.instrument()
+        png = b"\x89PNG\r\n\x1a\nsynthetic-test-frame"
+        ui.http.open.side_effect = [self.unavailable("g"), io.BytesIO(png),
+                                   io.BytesIO(b'{"s":[]}'), io.BytesIO(b'{"w":[]}')]
+        with tempfile.TemporaryDirectory() as folder, patch.object(native.time, "sleep"):
+            ui.out = Path(folder)
+            ui.capture("frame")
+            self.assertEqual((ui.out / "frame.png").read_bytes(), png)
+            self.assertEqual(json.loads((ui.out / "frame.snapshot.json").read_text()), {"s": []})
+            self.assertEqual(json.loads((ui.out / "frame.geometry.json").read_text()), {"w": []})
+        self.assertEqual([urllib.parse.urlparse(c.args[0]).path for c in ui.http.open.call_args_list],
+                         ["/g", "/g", "/snap", "/s"])
+        self.assertEqual([a["op"] for a in ui.actions], ["capture_unavailable", "capture"])
+
+    def test_capture_exhaustion_keeps_failures_without_fake_frame(self):
+        ui = self.instrument()
+        ui.http.open.side_effect = [self.unavailable("g") for _ in range(8)]
+        with tempfile.TemporaryDirectory() as folder, patch.object(native.time, "sleep") as sleep:
+            ui.out = Path(folder)
+            with self.assertRaises(urllib.error.HTTPError):
+                ui.capture("frame")
+            self.assertEqual(list(ui.out.iterdir()), [])
+        self.assertEqual(ui.http.open.call_count, 8)
+        self.assertEqual(sleep.call_count, 7)
+        self.assertEqual(len(ui.actions), 8)
+        self.assertTrue(all(a["op"] == "capture_unavailable" and a["status"] == 404
+                            for a in ui.actions))
+
+    def test_observation_retry_does_not_hide_other_transport_or_native_errors(self):
+        ui = self.instrument()
+        ui.http.open.side_effect = self.unavailable("snap", status=503)
+        with patch.object(native.time, "sleep") as sleep:
+            with self.assertRaises(urllib.error.HTTPError):
+                ui.call("snap")
+        self.assertEqual(ui.http.open.call_count, 1)
+        sleep.assert_not_called()
+        ui.http.open.reset_mock(side_effect=True)
+        ui.http.open.return_value = io.BytesIO(b'{"err":"failed to inspect"}')
+        with self.assertRaisesRegex(AssertionError, "failed to inspect"):
+            ui.call("snap")
+        self.assertEqual(ui.http.open.call_count, 1)
+
     def test_authentic_envelope_requires_explicit_publication_scope(self):
         self.assertEqual(native.catalog_scope(True, None), "private-development")
         self.assertEqual(native.catalog_scope(False, "github-dry-run"), "github-dry-run")

@@ -23,6 +23,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+import urllib.error
 from native_dev_fixture import APP_ID, sha
 
 
@@ -140,12 +141,26 @@ class Native:
             raise
 
     def call(self, route, **query):
+        # Input is dispatched normally; assert observable state separately.
+        # The frozen host may fail its optional synchronous present after input applied.
+        if route in ("click", "k", "t", "m") and query.get("wait"):
+            query["wait"] = 0
         require(self.child is not None and self.child.poll() is None, "Owned shell is not running")
         if time.monotonic() >= self.next_process_check:
             self.remember_children()
         url = self.endpoint + "/" + route + ("?" + urllib.parse.urlencode(query) if query else "")
-        with self.http.open(url, timeout=25) as response:
-            result = json.load(response)
+        for attempt in range(8):
+            try:
+                with self.http.open(url, timeout=25) as response:
+                    result = json.load(response)
+                break
+            except urllib.error.HTTPError as error:
+                body = error.read().decode(errors="replace")
+                self.actions.append({"op":"instrument_error","route":route,"status":error.code,"body":body,"input_replayed":False})
+                if route not in ("snap", "s") or error.code != 404 or attempt == 7:
+                    raise
+                # Read-only observation: a starting/hidden window can be between frames.
+                time.sleep(.25)
         require(not result.get("err"), "Native instrument: " + str(result.get("err")))
         return result
 
@@ -187,8 +202,17 @@ class Native:
     def capture(self, name):
         require(re.fullmatch(r"[a-zA-Z0-9_-]+", name), "Unsafe capture name")
         # Only the app drawable; never an OS/window/screen capture fallback.
-        with self.http.open(self.endpoint + "/g?raw=1", timeout=25) as response:
-            data = response.read(32 * 1024 * 1024 + 1)
+        for attempt in range(8):
+            try:
+                with self.http.open(self.endpoint + "/g?raw=1", timeout=25) as response:
+                    data = response.read(32 * 1024 * 1024 + 1)
+                break
+            except urllib.error.HTTPError as error:
+                body = error.read().decode(errors="replace")
+                self.actions.append({"op":"capture_unavailable","name":name,"status":error.code,"body":body})
+                if error.code != 404 or attempt == 7:
+                    raise
+                time.sleep(.25)
         require(data.startswith(b"\x89PNG\r\n\x1a\n") and len(data) <= 32 * 1024 * 1024, "Native capture did not return bounded PNG bytes")
         (self.out / (name + ".png")).write_bytes(data)
         (self.out / (name + ".snapshot.json")).write_text(json.dumps(self.call("snap"), indent=2) + "\n")
@@ -374,7 +398,7 @@ def main():
                "harness_support_sha256": sha(harness / "native_dev_fixture.py"),
                "catalog_scope": scope,
                "public_publication_proof": False, "model_or_credentials_configured": False,
-               "input": "Makepad instrument synthetic native events", "visual_review": "pending",
+               "input": "Makepad instrument synthetic native events; wait=0, separate state and pixels", "visual_review": "pending",
                "actions": actions, "checks": checks}
     try:
         anchor = None
