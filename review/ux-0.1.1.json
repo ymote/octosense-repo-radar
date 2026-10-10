@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "kind": "native-ux-review",
+  "app_id": "org.ymote.reporadar",
+  "version": "0.1.1",
+  "status": "scoped-checks-passed",
+  "author": "Codex",
+  "independent_reviewer": "separate Codex agent",
+  "human_approval": false,
+  "source_main_sha256": "6830d6dba3addbd8304ddf11bd04c828989a35e33633fba69e3b568d89f024bb",
+  "component_sha256": "b7ef65b5fb1f3561909451a8c4d8b7186ce9f9fef1f028ffdbd1f40453c2695a",
+  "host": {
+    "kind": "development",
+    "sha256": "817776cd2de08922badbcbb78728ec71a66d4e9d5c223debc04956110034c927"
+  },
+  "catalog_scope": "private-development",
+  "public_publication_proof": false,
+  "model_tested": false,
+  "input": "Makepad native synthetic events; final targeted drivers use wait=0 and separately assert state/pixels. Read-only observation retries are recorded; inputs are not replayed.",
+  "earlier_full_flow": {
+    "status": "passed",
+    "steps": 93,
+    "source_main_sha256": "1f645c874e1774104e8d33bd146764bbce6171b5e12fc67c8365144678b8ddb4",
+    "receipt_sha256": "bf5d1aded703a149755e876a3f6ce764f72ebf577c2d1be02940a3aa0f0b1014",
+    "limit": "Before final Markdown-link and rate-limit presentation repairs; not a full final-source pass."
+  },
+  "final_source": {
+    "rate_limit": {
+      "status": "passed",
+      "steps": 31,
+      "receipt_sha256": "7e5346fd1ecaf3ecddf0748f253c9ea5b01d95997a43574b39398110354a3e60",
+      "scope": "Actual anonymous GitHub rate limit, private Hub install, search and pin; no fabricated response."
+    },
+    "ux_soak": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "native pin retained: tokio-rs/tokio",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "native pin retained: rust-lang/rust",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "Native Send control is disabled when consent is off",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "Declined Chat presents an inactive action and preserves editable draft",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "Denied Chat has one explanation, without duplicate raw host error",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "Draft survives tab switch",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "Separate exact drafts survive two project switches",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "Refresh retains editor focus and exact draft",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "No Data details no-op in Chat",
+          "passed": true,
+          "details": null
+        },
+        {
+          "name": "Activity scroll position retained across Chat",
+          "passed": true,
+          "details": {
+            "visible_links": [
+              "Close Unix child stdin on shutdown",
+              "runtime: record time wake when unparking tasks on current thread",
+              "rt: bound sharded blocking queue batches",
+              "process: route Unix child stdio through mio::IoSource",
+              "io: wake and drop `DuplexStream` wakers outside the lock"
+            ]
+          }
+        },
+        {
+          "name": "Smaller desktop width exercised",
+          "passed": true,
+          "details": {
+            "before": [
+              307,
+              121,
+              737,
+              533
+            ],
+            "after": [
+              307,
+              121,
+              557,
+              533
+            ]
+          }
+        },
+        {
+          "name": "Compact composer and Send reachable",
+          "passed": true,
+          "details": null
+        }
+      ],
+      "receipt_sha256": "b9b44a23ac954f2cc8b4756a1d3210c333f5f4dfacd7243bb01f3f6b54e1c4df",
+      "cache_provenance": {
+        "prior_receipt_sha256": "c9d8806b592e70ed08f2e7a77a33882d292072c9435413edb77959633a176548",
+        "state_sha256": "68308fbd64f08d850488e0deb092f410c13b7deb3fd0de618afb0d661f3174bb",
+        "scope": "Unedited persisted state from prior native public-GitHub run; source UI installed from new fixture",
+        "same_component": true
+      },
+      "scope": "Unedited public-GitHub cache and six-pin state from prior owned native run, loaded by unchanged Rust component. Two project drafts exercised at 990 and 810 app widths."
+    },
+    "glance_return": {
+      "status": "passed",
+      "receipt_sha256": "860ecd7da0155cc39744d5a0a7f00d9325ad5fbd725c79cf60cf78e3836451f3",
+      "from": "tokio-rs/tokio",
+      "to": "rust-lang/rust",
+      "draft_retained": "Explain the Rust release changes.",
+      "observed_native_open_point": [
+        1175,
+        289
+      ],
+      "settled_snapshot_sha256": "0dd05db8db02f590882883b688c64dd5bef856e74927a9e1701abbf0f31cd05d",
+      "note": "First post-click screenshot preceded the queued route; assertions use the subsequent settled project and Chat."
+    }
+  },
+  "visual_review": {
+    "status": "passed for reviewed frames",
+    "independent_receipt_sha256": "af8a2c770303efe5557efcafc98b0cf7da849a351994f03432a65d73206dcce7",
+    "findings": [
+      "Full chart and first PR readable at default and 810px app width.",
+      "Six-pin list scrolls; project selection remains clear.",
+      "Native release Markdown is readable without default Button placeholders; explicit release links remain available.",
+      "Chat editor stays mounted through refresh/tab changes, with separate project drafts.",
+      "Consent-denied Chat has one explanation and a visibly disabled action.",
+      "Real rate limit shows the cause and retry time without a false zero count."
+    ],
+    "screenshots": {
+      "screenshots/01-main.png": "8d3e08866cd0aaa7ee9de87f8b4d5f87aae384f5ba351a5f49c7750637a898f4",
+      "screenshots/02-releases.png": "a889c6b57e9dbb3b72209f7021381335ca61872a8b9667689b15a77abcddb59d"
+    },
+    "capture": "Unedited native /g PNGs from the final-source owned shell, not OS screenshots."
+  },
+  "failed_iterations_preserved": [
+    "Early render StackError and hidden-panel resets; repaired before populated acceptance.",
+    "Functional full003 exposed Markdown default Button labels during independent visual review.",
+    "Hidden-window frame submission/snapshot HTTP404s; no automatic input replay.",
+    "Anonymous GitHub quota exhausted; retained actual failure and added tested cooldown presentation.",
+    "Harness corrections: empty startup state, TextInput value versus placeholder, disabled-action assertion, and excluding Splash source nodes from visible text checks."
+  ],
+  "not_verified": [
+    "Live model replies and enabled-agent turns",
+    "Human physical input or numeric UX score",
+    "Android, Linux and Windows",
+    "Final-source full93 scenario after last presentation repairs; affected behavior was tested separately",
+    "Public compatible-host install, new sealed0.1.1 release and public catalog admission",
+    "Inline Markdown link activation (preview links are text; explicit release links provide navigation)",
+    "Performance guarantee under load: development-host admission/draw stalls and instrument presentation errors were observed."
+  ],
+  "packaging_note": "After native tests, only listing screenshot references, unedited screenshot bytes and manifest integrity stamp changed; runtime main/component/agent/tool bytes stayed identical."
+}

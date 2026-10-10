@@ -5,6 +5,35 @@ OSSInsight's repository dashboards. Developed under `ymote`, with publication
 pending, as a reproducible example of an OctoSense app with its own Rust component and network
 access. App ID: `org.ymote.reporadar`. Initial acceptance platform: macOS.
 
+## UX revision 0.1.1
+
+The requester rejected the initial UI. Its functional 94-step run did not
+establish good default-screen UX: the driver scrolled to reveal a chart that was
+partly hidden at launch. Follow App Flow's script-app and native review loop.
+Author/driver: Codex; independent reviewer: a separate Codex agent. Use real public
+GitHub data in owned hidden macOS instances, with no personal credentials.
+
+- Primary journey: search, inspect, pin, select another project, return to the
+  saved watchlist. Give the list compact rows and a persistent selected state.
+- At the existing 990×603 client size, reduce the brand header and metric tiles
+  so the complete native PR chart, including category labels, is visible on the
+  first populated screen without scrolling. Counts and source coverage remain
+  honest; put diagnostic prose behind an explicit data-details control.
+- Keep one Activity / Releases / Chat navigation row in the same position.
+  Keep pinning with the project header and ordering with the watchlist.
+- Preserve the active scroll surface during asynchronous refreshes. Keep the
+  chat editor mounted across tabs and refreshes, with a clear project context,
+  readable unavailable state, and reachable Send action.
+- Use concise loading, empty, search-validation, network and rate-limit states.
+  Long repository and release titles remain readable; secondary metadata does
+  not crowd out primary content. Match control contrast and focus treatment.
+- Recheck native search/pin/reorder/unpin, second/last list item, scrolling,
+  releases, Glance routing, unsent draft/focus, empty/error and restart states.
+  Review actual pixels at the default size and a smaller desktop width.
+- Existing 0.1.0 evidence and sealed artifacts remain unchanged. Capture new
+  screenshots and source-bound evidence for the revision. Report visual findings
+  separately from functional passes; no invented score or human approval.
+
 ## Screens and actions
 
 - Watchlist: search public GitHub projects by name or `owner/repo`; inspect search

@@ -12,13 +12,21 @@ verified catalog rehearsal. A compatible desktop release and public-store
 installation are still pending. These results do not establish live model
 answers or public installation.
 
+The source prepares **0.1.1**, a UX revision following OctoSense App Flow:
+compact watchlist rows, a complete chart on the opening screen, one consistent
+Activity / Releases / Chat row, formatted release notes, and separate unsent
+chat drafts for each project. The historical 0.1.0 functional checks are not
+visual approval of this revision. The [UX review](review/ux-0.1.1.json) records
+native checks, repaired visual defects and remaining limits. Public admission
+still needs a new sealed release and a compatible host.
+
 ## Use the watchlist
 
 Once installed in a compatible OctoSense release:
 
 1. Search a project name or `owner/repo`, then select a result.
 2. Choose **+ Pin project** to add it to your local watchlist. **My pins** returns
-   to the saved list after searching.
+   to the saved list after searching in 0.1.0; **Done** does this in 0.1.1.
 3. Select a pinned project to see its activity and releases. Use **↑ / ↓** to
    reorder it or **Unpin** to remove it. The list and selection survive restarts.
 4. Choose **Refresh** for a new observation, or **Glance** to publish a project
@@ -27,6 +35,12 @@ Once installed in a compatible OctoSense release:
 **Chat** uses OctoSense's optional app agent when consent and a model provider
 are configured. Search, charts and the watchlist do not require it. This version
 refreshes on user actions; it does not monitor projects in the background.
+In 0.1.1, chat drafts stay with their project while switching tabs and projects
+during the current app session; unsent drafts are not persisted across restarts.
+If assistant consent is off, the draft stays editable and sending is disabled.
+Release notes use native Markdown; use the release title or full-notes link to
+open GitHub. Inline links inside the preview are rendered as text because of a
+Markdown-link defect in the tested host.
 
 ## Architecture
 

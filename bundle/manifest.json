@@ -27,7 +27,7 @@
   },
   "id": "org.ymote.reporadar",
   "integrity": {
-    "bundle_blake3": "f0b8e90db1cdf45786f772be91eca83cf9f9daf887ec62d798ff109c54678f85"
+    "bundle_blake3": "1bdc17776abfe0f1ed6d0519d256d5cb973ec123e4423ba2834e0991c176b749"
   },
   "name": "Repo Radar",
   "network": {
@@ -44,5 +44,5 @@
   "storage": {
     "max_bytes": 8388608
   },
-  "version": "0.1.0"
+  "version": "0.1.1"
 }

@@ -46,8 +46,8 @@ publishes to Glance, restarts, and unpins both. The normal F9 binding closes
 the automatically opened Glance panel before further app input. Assertions combine actual widget text with read-only
 inspection of the Rust component's persisted watchlist. Sidebar selectors are
 scoped so a repeated project title cannot accidentally pass as a list row.
-It requires a `D3BarChart` of at least 240×120 logical pixels entirely inside
-the activity viewport, backed by fetched PR data; use a host with
+It requires a `D3BarChart` of at least 320×160 logical pixels entirely inside
+the activity viewport on the first populated screen without app scrolling, backed by fetched PR data; use a host with
 native D3 registration. RC4 does not provide that chart registration, and the
 first retained RC4 run also exposed its component HTTPS provider panic.
 Quick successive searches and selections observe stale-result behavior; they do
@@ -63,6 +63,19 @@ and preserves the driver/scenario bytes and first failing frame/log. Review scre
 assigning a UX score. `passed` means only that the recorded scenario passed.
 It does not prove physical input, model answers, external-browser navigation,
 Android, chart support in an older host, or public install/update acceptance.
+
+For the 0.1.1 UX follow-up, use the same source and an owned copy of the completed
+profile. Add six public projects through search/pin; inspect the first and last
+rows and scroll the watchlist. Open Chat, decline its optional agent, and check
+that one explanation and an inactive **Chat off** action appear while the draft
+remains editable. Keep distinct drafts for two projects, switch Activity /
+Releases / Chat, refresh while typing, then append text without clicking the
+editor again. Verify the exact draft and focus, plus the activity scroll position
+after switching tabs. Repeat at 990 and 810 logical pixels of app width. Inspect
+the native chart, first PR, release Markdown and full composer in the PNGs;
+widget geometry alone does not establish readability. Finally, open a published
+Glance summary from a different selected project and check the destination and
+its retained draft. No live-model result is implied by this denied-agent test.
 
 For a protected catalog dry run, use `--public-catalog <genuine-mirror>
 --catalog-scope github-dry-run` instead of `--dev-fixture`. After public
@@ -102,11 +115,18 @@ GitHub 发布、公开商店安装或更新已通过**；正式发布仍使用 G
 场景验证搜索、固定项目、选择、排序、版本页、刷新、发布 Glance、重启持久化和取消固定。
 Glance 发布后会自动打开面板；驱动通过正常 F9 快捷键关闭它，再继续应用输入。
 每次运行要求真实 PR 数据对应的原生 `D3BarChart` 完整位于活动视口内，且至少为
-240×120 逻辑像素，因此需要已注册 D3 的宿主。标题稳定性检查保留每次采样，
+320×160 逻辑像素，因此需要已注册 D3 的宿主。标题稳定性检查保留每次采样，
 出现其他项目标题立即失败；只容许不超过 0.5 秒的重绘缺失，之后必须重新看到正确标题。
 RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供程序 panic。
 失败会保留驱动和场景原始字节、日志、截图和 receipt，不覆盖失败记录。自动通过不等于视觉 UX
 验收；仍需审视实际截图，也不代表手机、模型回答、外部浏览器或公开更新已验证。
+
+0.1.1 的 UX 补充验收应使用同一源码和已完成测试资料的独立副本。通过搜索固定六个
+公开项目，检查列表首尾和滚动；拒绝可选 agent 后，Chat 应只显示一条说明和不可用的
+“Chat off”按钮，草稿仍可编辑。为两个项目输入不同草稿，切换标签和项目，边刷新边
+输入，再不点击编辑器直接追加文字，验证草稿、焦点和活动页滚动位置。分别以 990 和
+810 逻辑像素宽度审视真实截图中的图表、首条 PR、Markdown 版本说明及完整输入区。
+最后从另一个项目打开 Glance 摘要，确认目标项目及草稿。拒绝授权的测试不代表模型回答已验证。
 
 受保护的目录试运行使用 `--public-catalog <genuine-mirror>
 --catalog-scope github-dry-run`；正式发布后改用 `--catalog-scope github-public`。
