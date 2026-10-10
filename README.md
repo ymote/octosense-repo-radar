@@ -12,6 +12,22 @@ verified catalog rehearsal. A compatible desktop release and public-store
 installation are still pending. These results do not establish live model
 answers or public installation.
 
+## Use the watchlist
+
+Once installed in a compatible OctoSense release:
+
+1. Search a project name or `owner/repo`, then select a result.
+2. Choose **+ Pin project** to add it to your local watchlist. **My pins** returns
+   to the saved list after searching.
+3. Select a pinned project to see its activity and releases. Use **↑ / ↓** to
+   reorder it or **Unpin** to remove it. The list and selection survive restarts.
+4. Choose **Refresh** for a new observation, or **Glance** to publish a project
+   summary whose **Open project** button returns to that project's workspace.
+
+**Chat** uses OctoSense's optional app agent when consent and a model provider
+are configured. Search, charts and the watchlist do not require it. This version
+refreshes on user actions; it does not monitor projects in the background.
+
 ## Architecture
 
 `bundle/main.splash` draws the native UI. `components/radar` compiles Rust and
