@@ -1,7 +1,8 @@
 # Repo Radar review answers
 
-Candidate: `org.ymote.reporadar` 0.1.1. These are the author's answers, not an
+Candidate: `org.ymote.reporadar` 0.1.2. These are the author's answers, not an
 App Hub approval or a claim that publication and released-host acceptance passed.
+Version 0.1.2 changes only listing disclosure and version metadata from 0.1.1; runtime code is identical.
 Run `hub scan bundle --packet build/review.json` on the final stamped bundle.
 
 1. **Behavior and listing.** `bundle/main.splash` implements explicit search,

@@ -12,13 +12,15 @@ verified catalog rehearsal. A compatible desktop release and public-store
 installation are still pending. These results do not establish live model
 answers or public installation.
 
-The source prepares **0.1.1**, a UX revision following OctoSense App Flow:
+The source prepares **0.1.2**, carrying the 0.1.1 UX revision following OctoSense App Flow:
 compact watchlist rows, a complete chart on the opening screen, one consistent
 Activity / Releases / Chat row, formatted release notes, and separate unsent
 chat drafts for each project. The historical 0.1.0 functional checks are not
 visual approval of this revision. The [UX review](review/ux-0.1.1.json) records
 native checks, repaired visual defects and remaining limits. Public admission
-still needs a new sealed release and a compatible host.
+still needs a verified sealed release and a compatible host. Version 0.1.2
+adds the listing's explicit disclosure that live model replies and agent tool
+execution remain unverified; its runtime code is identical to 0.1.1.
 
 ## Use the watchlist
 
@@ -35,6 +37,7 @@ Once installed in a compatible OctoSense release:
 **Chat** uses OctoSense's optional app agent when consent and a model provider
 are configured. Search, charts and the watchlist do not require it. This version
 refreshes on user actions; it does not monitor projects in the background.
+Live model replies and agent tool execution have not yet been validated.
 In 0.1.1, chat drafts stay with their project while switching tabs and projects
 during the current app session; unsent drafts are not persisted across restarts.
 If assistant consent is off, the draft stays editable and sending is disabled.
