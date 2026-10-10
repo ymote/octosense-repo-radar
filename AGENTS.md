@@ -16,6 +16,13 @@ and do not invent requirements or APIs:
 - Final bundle, screenshots and human checkpoints: [PUBLISHING](https://github.com/OctoSense-org/OctoSense-App-Flow/blob/main/docs/PUBLISHING.md)
 - Publisher proof and the submission issue: App Hub's [SUBMITTING](https://github.com/OctoSense-org/OctoSense-App-Hub/blob/main/docs/SUBMITTING.md)
 
+**Repo Radar override:** this app requires a full OctoSense shell with Wasm
+components, `host-api-v1`, `charts.d3@1` and the WASI HTTPS provider fix. The
+standalone card-host loop below cannot run this exact bundle. Use
+[tools/NATIVE-ACCEPTANCE.md](tools/NATIVE-ACCEPTANCE.md) and an isolated full-shell
+profile. Never remove manifest compatibility requirements just to pass a preview.
+
+The following generated loop applies to simpler card-host-compatible apps.
 Set `OCTO=<path to OctoSense-App-Flow>/tools/octo`, then run this loop
 from this directory. The CLI lives in the harness repository, not here; on
 Windows, run it as `python $OCTO`.
@@ -72,6 +79,7 @@ Follow these rules:
 - `publisher-github-v1` needs contract 1.8.0 and a compatible host; older
   hosts and `card-host` refuse the sealed release. OctoSense desktop
   0.1.0-rc.1 and later install GitHub-attested apps (verified on macOS); no
-  released phone build supports them yet. Follow the linked publishing guide for current evidence.
+  phone platform is claimed for Repo Radar. Follow the linked publishing guide
+  for current host-release evidence.
 
 Add this app's own requirements, data sources and tests below.

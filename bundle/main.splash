@@ -236,10 +236,10 @@ fn publish_glance(){
     let repo = selected
     // L0 source is fixed; remote strings enter only through bound data.
     let route = "repo/" + repo.full_name
-    let source = "source project sys.dataset(fields: [name, description, counts, url])\nsource destination sys.link(fields: [url])\nevent open_project { destination: set($value) }\nview root Surface(pad: .page) { Col(gap: 12) { TextTitle(text: project.name) TextBody(text: project.description) TextBody(text: project.counts) Chip(text: \"Open project\", on_tap: open_project, value: project.url, tone: .primary) } }"
+    let source = "source project sys.dataset(fields: [title, summary, metric1_value, url1])\nsource destination sys.link(fields: [url])\nevent open_project { destination: set($value) }\nview root Surface(pad: .page) { Col(gap: 12) { TextTitle(text: project.title) TextBody(text: project.summary) TextBody(text: project.metric1_value) Chip(text: \"Open project\", on_tap: open_project, value: project.url1, tone: .primary) } }"
     host.request("glance.publish", {
         card_id:"repo-" + repo.id title:"Repo Radar" summary:repo.full_name
-        source:source data:{project:{name:repo.full_name description:repo.description counts:"Stars " + repo.stars + " · Forks " + repo.forks url:"app://org.ymote.reporadar/" + route}}
+        source:source data:{project:{title:repo.full_name summary:repo.description metric1_value:"Stars " + repo.stars + " · Forks " + repo.forks url1:"app://org.ymote.reporadar/" + route}}
         open:{app:"org.ymote.reporadar" route:route} notify:false expires:86400
     }, fn(r){ if r.is_ok { notify("Project summary added to Glance.") } else { notify(r.error) } })
 }
@@ -248,7 +248,7 @@ let muted = #x6c788c
 let accent = #x007e68
 let surface = #xffffff
 let base = #xf3f6fa
-let Text = Label{width:Fill height:Fit draw_text.color:ink draw_text.text_style.font_size:14}
+let Text = Label{width:Fill height:Fit padding:0 draw_text.color:ink draw_text.text_style.font_size:14}
 let Hint = Text{draw_text.color:muted draw_text.text_style.font_size:12}
 let Title = Text{draw_text.text_style:theme.font_bold{font_size:23}}
 let Action = ButtonFlat{height:36 padding:Inset{left:12 right:12}
@@ -321,7 +321,7 @@ SolidView{width:Fill height:Fill flow:Down draw_bg.color:base
             }}
             Hint{text:"Local pins · Public GitHub data"}
         }
-        workspace := View{width:Fill height:Fill flow:Down padding:24 spacing:16 on_render:||{
+        workspace := View{width:Fill height:Fill flow:Down padding:18 spacing:10 on_render:||{
             if selected == nil {
                 View{width:Fill height:Fill flow:Down align:Align{y:0.35} spacing:16
                     Label{text:"Projects worth following." draw_text.color:ink draw_text.text_style:theme.font_bold{font_size:32}}
@@ -336,22 +336,18 @@ SolidView{width:Fill height:Fill flow:Down draw_bg.color:base
                     refresh_project := Action{text:"Refresh" on_click:||refresh(true)}
                     publish_glance := Action{text:"Glance" on_click:||publish_glance()}
                 }
-                Text{text:repo.description}
-                View{width:Fill height:Fit flow:Right spacing:24
-                    LinkLabel{text:"View on GitHub ↗" url:repo.html_url draw_text.color:accent}
-                    Hint{width:Fit text:repo.language}
-                    if repo.archived {Hint{width:Fit text:"Archived repository"}}
-                }
+                if tab != "chat" {
                 View{width:Fill height:Fit flow:Right spacing:12
-                    RoundedView{width:Fill height:90 flow:Down padding:14 spacing:8 draw_bg +:{color:surface border_radius:12}
+                    RoundedView{width:Fill height:Fit flow:Down padding:12 spacing:5 draw_bg +:{color:surface border_radius:12}
                         Hint{text:"STARS"} Title{text:"" + repo.stars draw_text.color:accent}
                     }
-                    RoundedView{width:Fill height:90 flow:Down padding:14 spacing:8 draw_bg +:{color:surface border_radius:12}
+                    RoundedView{width:Fill height:Fit flow:Down padding:12 spacing:5 draw_bg +:{color:surface border_radius:12}
                         Hint{text:"FORKS"} Title{text:"" + repo.forks}
                     }
-                    RoundedView{width:Fill height:90 flow:Down padding:14 spacing:8 draw_bg +:{color:surface border_radius:12}
+                    RoundedView{width:Fill height:Fit flow:Down padding:12 spacing:5 draw_bg +:{color:surface border_radius:12}
                         Hint{text:"OPEN ISSUES + PRs"} Title{text:"" + repo.open_issues_and_prs}
                     }
+                }
                 }
                 View{width:Fill height:Fit flow:Right spacing:6
                     activity_tab := Action{text:if tab == "activity" {"● Activity"} else {"Activity"} on_click:||choose_tab("activity")}
@@ -365,7 +361,7 @@ SolidView{width:Fill height:Fill flow:Down draw_bg.color:base
                     }
                 }
                 if tab == "activity" {
-                    ScrollYView{width:Fill height:Fill flow:Down spacing:14
+                    activity_body := ScrollYView{width:Fill height:Fill flow:Down spacing:10
                         if pulls == nil {Hint{text:if pulls_error != "" {"Could not load pull requests. Use Refresh to retry."} else {"Loading recent pull requests…"}}}
                         if pulls != nil {
                             Text{text:"Recently updated pull requests" draw_text.text_style:theme.font_bold{font_size:17}}
@@ -378,16 +374,22 @@ SolidView{width:Fill height:Fill flow:Down draw_bg.color:base
                                     else {if pull.state == "closed" {closed_count = closed_count + 1} else {open_count = open_count + 1}}
                                 }
                                 if charts_available {
-                                    d3.BarChart{width:Fill height:180 data:[open_count merged_count closed_count] labels:["Open / draft" "Merged" "Closed unmerged"] bar_color:accent}
+                                    d3.BarChart{width:Fill height:160 data:[open_count merged_count closed_count] labels:["Open / draft" "Merged" "Closed unmerged"] bar_color:accent}
                                 } else {Hint{text:"Native charts need a newer OctoSense host. The counts below are available."}}
                                 Text{text:"Open / draft " + open_count + "     Merged " + merged_count + "     Closed unmerged " + closed_count}
+                            }
+                                Text{text:repo.description}
+                                View{width:Fill height:Fit flow:Right spacing:16
+                                    LinkLabel{padding:0 text:"View on GitHub ↗" url:repo.html_url draw_text.color:accent}
+                                    Hint{width:Fit text:repo.language}
+                                    if repo.archived {Hint{width:Fit text:"Archived repository"}}
+                                }
                                 for pull in pulls.items {
                                     RoundedView{width:Fill height:Fit flow:Down padding:12 spacing:5 draw_bg +:{color:surface border_radius:9}
                                         LinkLabel{width:Fill text:"#" + pull.number + "  " + pull.title url:pull.html_url draw_text.color:ink}
                                         Hint{text:pull.state + " · " + pull.author + " · updated " + pull.updated_at}
                                     }
                                 }
-                            }
                         }
                         if overview != nil {
                             Text{text:"Your observed star history" draw_text.text_style:theme.font_bold{font_size:17}}
@@ -402,7 +404,7 @@ SolidView{width:Fill height:Fill flow:Down draw_bg.color:base
                     }
                 }
                 if tab == "releases" {
-                    ScrollYView{width:Fill height:Fill flow:Down spacing:14
+                    releases_body := ScrollYView{width:Fill height:Fill flow:Down spacing:10
                         if releases == nil {Hint{text:if releases_error != "" {"Could not load releases. Use Refresh to retry."} else {"Loading published releases…"}}}
                         if releases != nil {
                             Hint{text:releases.page.coverage + " · " + meta_text(releases.meta)}
@@ -435,16 +437,16 @@ SolidView{width:Fill height:Fill flow:Down draw_bg.color:base
                                 }
                             }
                         }}
-                        chat_status := Hint{text:chat_note}
+                        chat_status := Hint{max_lines:2 text_overflow:TextOverflow.Ellipsis text:chat_note}
                         View{width:Fill height:Fit flow:Right spacing:8 align:Align{y:1}
                             question := Field{height:70 is_multiline:true text:question_draft on_change:|text|{question_draft = text} empty_text:"Ask about " + repo.full_name + "…"}
                             Primary{text:if chatting {"Thinking…"} else {"Send"} on_click:||ask()}
                         }
                     }
                 }
-                Hint{text:panel_note}
+                Hint{max_lines:2 text_overflow:TextOverflow.Ellipsis text:panel_note}
             }
         }}
     }
-    status := Label{width:Fill height:Fit padding:Inset{left:20 right:20 top:8 bottom:8} text:status draw_text.color:muted draw_text.text_style.font_size:11}
+    status := Label{width:Fill height:Fit max_lines:2 text_overflow:TextOverflow.Ellipsis padding:Inset{left:20 right:20 top:8 bottom:8} text:status draw_text.color:muted draw_text.text_style.font_size:11}
 }

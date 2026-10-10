@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import re
 import signal
+import shutil
 import socket
 import subprocess
 import sys
@@ -42,8 +43,12 @@ def json_pointer(value, pointer):
 
 
 def select(rows, selector):
-    allowed = {"id", "text", "type", "contains", "within_id"}
+    allowed = {"id", "text", "type", "contains", "within_id", "min_size"}
     require(selector and set(selector) <= allowed, "Unsupported/empty widget selector")
+    minimum = selector.get("min_size", [0, 0])
+    require(isinstance(minimum, list) and len(minimum) == 2 and all(
+        type(value) in (int, float) and math.isfinite(value) and 0 <= value <= 4096
+        for value in minimum), "Invalid minimum widget size")
     container = select(rows, {"id": selector["within_id"]}) if "within_id" in selector else None
     if "within_id" in selector and container is None:
         return None
@@ -51,6 +56,8 @@ def select(rows, selector):
     for row in rows:
         rect = row.get("r", [0, 0, 0, 0])
         if len(rect) != 4 or rect[2] <= 0 or rect[3] <= 0:
+            continue
+        if rect[2] < minimum[0] or rect[3] < minimum[1]:
             continue
         if selector.get("id") is not None and row.get("i") != selector["id"]:
             continue
@@ -328,10 +335,18 @@ def main():
     require(re.fullmatch(r"[0-9a-f]{64}", args.expected_host_sha256), "Expected host hash is required")
     require(sha(binary) == args.expected_host_sha256, "Host differs from the explicitly selected executable")
     out.mkdir(mode=0o700, parents=True, exist_ok=False)
+    # Keep the actual driver/scenario bytes too, not only hashes of files that
+    # may later be improved after an original failure.
+    shutil.copyfile(args.scenario, out / "scenario.json")
+    harness = out / "harness"
+    harness.mkdir(mode=0o700)
+    for name in ("native_acceptance.py", "native_dev_fixture.py"):
+        shutil.copyfile(Path(__file__).with_name(name), harness / name)
     actions, ui, checks = [], None, []
     receipt = {"schema": 1, "status": "running", "complete": False, "app_id": APP_ID, "host_kind": args.host_kind,
-               "host_sha256": sha(binary), "hub_sha256": sha(hub), "scenario_sha256": sha(args.scenario),
-               "harness_sha256": sha(Path(__file__)),
+               "host_sha256": sha(binary), "hub_sha256": sha(hub), "scenario_sha256": sha(out / "scenario.json"),
+               "harness_sha256": sha(harness / "native_acceptance.py"),
+               "harness_support_sha256": sha(harness / "native_dev_fixture.py"),
                "catalog_scope": "private-development" if args.dev_fixture else "github-verified",
                "public_publication_proof": False, "model_or_credentials_configured": False,
                "input": "Makepad instrument synthetic native events", "visual_review": "pending",
@@ -354,7 +369,7 @@ def main():
             require(verified.returncode == 0, "Public catalog proof verification failed")
         env = environment(out, catalog, anchor)
         receipt["catalog_sha256"] = sha(catalog / ("catalog.json" if anchor else "catalog-v2.json"))
-        steps = json.loads(args.scenario.read_text())["steps"]
+        steps = json.loads((out / "scenario.json").read_text())["steps"]
         require(isinstance(steps, list) and 0 < len(steps) <= 300, "Scenario must contain 1–300 bounded steps")
         session = 0
         for index, step in enumerate(steps):
@@ -386,10 +401,28 @@ def main():
                     seconds = step.get("seconds", 2)
                     require(type(seconds) in (int, float) and 0 < seconds <= 5, "Bounded stability interval required")
                     end = time.monotonic() + seconds
+                    samples, missing_since, present = [], None, 0
+                    sample_path = out / ("stability-step-" + str(index) + ".json")
                     while time.monotonic() < end:
                         row = select(ui.rows(), step["selector"])
-                        require(row is not None and row.get("t") == step["equals"], "Selected workspace changed during observation")
+                        now = time.monotonic()
+                        samples.append({"seconds": round(now - started, 3), "text": row.get("t") if row else None,
+                                        "rect": row.get("r") if row else None})
+                        sample_path.write_text(json.dumps(samples, indent=2) + "\n")
+                        # A reactive subtree may briefly have no drawn area.
+                        # Never accept another project's title; also fail an
+                        # absent title lasting over half a second. Retain each
+                        # sample so a redraw gap cannot mask a stale response.
+                        if row is None:
+                            missing_since = now if missing_since is None else missing_since
+                            require(now - missing_since <= .5, "Selected title absent for more than 0.5s during redraw")
+                        else:
+                            require(row.get("t") == step["equals"], "Selected workspace changed to " + repr(row.get("t")))
+                            missing_since = None
+                            present += 1
                         time.sleep(.1)
+                    require(missing_since is None and present >= 5, "Insufficient settled title observations")
+                    actions.append({"op": op, "samples": sample_path.name, "present_samples": present})
                 elif op == "expect_state":
                     def expected():
                         state = component_state(Path(env["OCTOSENSE_APP_DATA"]))
@@ -416,6 +449,11 @@ def main():
                     ui.capture(step["name"])
                 elif op == "refuse_agent":
                     ui.refuse_agent(Path(env["OCTOSENSE_HOME"]), step["app"])
+                elif op == "toggle_glance":
+                    # Desktop's normal F9 binding. Publishing opens this
+                    # host-owned overlay, which intercepts app keyboard input.
+                    ui.call("k", k="press", c="F9", wait=1)
+                    actions.append({"op": op, "key": "F9", "input": "owned native instrument"})
                 elif op == "scroll":
                     row = ui.wait(lambda: select(ui.rows(), step["selector"]))
                     x, y, width, height = row["r"]

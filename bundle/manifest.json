@@ -20,9 +20,14 @@
     "octos.session.history",
     "octos.turn.start"
   ],
+  "host_api": {
+    "required": {
+      "charts.d3": 1
+    }
+  },
   "id": "org.ymote.reporadar",
   "integrity": {
-    "bundle_blake3": "4e7c8f115b65653b909cd4ebde6666e2788eeca553da0195087b6669f1456ec5"
+    "bundle_blake3": "f0b8e90db1cdf45786f772be91eca83cf9f9daf887ec62d798ff109c54678f85"
   },
   "name": "Repo Radar",
   "network": {
@@ -32,7 +37,8 @@
     ]
   },
   "requires": [
-    "wasm-components-v1"
+    "wasm-components-v1",
+    "host-api-v1"
   ],
   "schema": 1,
   "storage": {

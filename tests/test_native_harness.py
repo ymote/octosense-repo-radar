@@ -34,6 +34,15 @@ class HarnessTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "Unsupported"):
             native.select([], {"name": "search"})
 
+    def test_clipped_chart_sliver_cannot_pass_render_acceptance(self):
+        row = {"ty": "D3BarChart", "r": [0, 0, 600, 1]}
+        selector = {"type": "D3BarChart", "min_size": [240, 120]}
+        self.assertIsNone(native.select([row], selector))
+        row["r"][3] = 220
+        self.assertIs(native.select([row], selector), row)
+        with self.assertRaisesRegex(AssertionError, "Invalid minimum"):
+            native.select([row], {"type": "D3BarChart", "min_size": [240, float("nan")]})
+
     def test_watchlist_order_and_selection_come_from_stored_ids(self):
         state = {"schema": 1, "pins": [{"repo_id": 2}, {"repo_id": 1}], "selected_repo_id": 1,
                  "repos": {"1": {"summary": {"full_name": "org/first"}}, "2": {"summary": {"full_name": "org/second"}}}}

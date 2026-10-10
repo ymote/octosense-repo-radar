@@ -42,16 +42,24 @@ PNG may have twice as many pixels as logical points.
 
 The scenario installs through App Hub's normal UI, searches real public GitHub,
 pins two repositories, selects and reorders them, opens releases, refreshes,
-restarts, and unpins both. Assertions combine actual widget text with read-only
+publishes to Glance, restarts, and unpins both. The normal F9 binding closes
+the automatically opened Glance panel before further app input. Assertions combine actual widget text with read-only
 inspection of the Rust component's persisted watchlist. Sidebar selectors are
 scoped so a repeated project title cannot accidentally pass as a list row.
+It requires a `D3BarChart` of at least 240×120 logical pixels entirely inside
+the activity viewport, backed by fetched PR data; use a host with
+native D3 registration. RC4 does not provide that chart registration, and the
+first retained RC4 run also exposed its component HTTPS provider panic.
 Quick successive searches and selections observe stale-result behavior; they do
-not force a deterministic out-of-order network response. Component unit tests
+not force a deterministic out-of-order network response. The title check saves
+every sample, rejects any other project's title immediately, and allows only
+brief redraw gaps (at most 0.5 seconds) before requiring the title again.
+Component unit tests
 cover controlled failure and rate-limit states separately.
 
 Every run has a new output directory. Its receipt binds the host, Hub, catalog,
 scenario and source hashes; records steps, screenshots, failure and cleanup;
-and preserves the first failing frame/log. Review screenshots separately before
+and preserves the driver/scenario bytes and first failing frame/log. Review screenshots separately before
 assigning a UX score. `passed` means only that the recorded scenario passed.
 It does not prove physical input, model answers, external-browser navigation,
 Android, chart support in an older host, or public install/update acceptance.
@@ -77,8 +85,13 @@ GitHub 发布、公开商店安装或更新已通过**；正式发布仍使用 G
 的 JSON 文件中填写“Don't allow”的实际坐标。工具点击后只读取授权记录确认拒绝，
 不会伪造或修改记录。
 
-场景验证搜索、固定项目、选择、排序、版本页、刷新、重启持久化和取消固定。每次
-失败会保留原始日志、截图和 receipt，不覆盖失败记录。自动通过不等于视觉 UX
+场景验证搜索、固定项目、选择、排序、版本页、刷新、发布 Glance、重启持久化和取消固定。
+Glance 发布后会自动打开面板；驱动通过正常 F9 快捷键关闭它，再继续应用输入。
+每次运行要求真实 PR 数据对应的原生 `D3BarChart` 完整位于活动视口内，且至少为
+240×120 逻辑像素，因此需要已注册 D3 的宿主。标题稳定性检查保留每次采样，
+出现其他项目标题立即失败；只容许不超过 0.5 秒的重绘缺失，之后必须重新看到正确标题。
+RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供程序 panic。
+失败会保留驱动和场景原始字节、日志、截图和 receipt，不覆盖失败记录。自动通过不等于视觉 UX
 验收；仍需审视实际截图，也不代表手机、模型回答、外部浏览器或公开更新已验证。
 
 正式发布后改用 `--public-catalog`，保留下载哈希和 GitHub 证明，独立验证安装及

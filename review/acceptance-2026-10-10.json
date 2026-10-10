@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "date": "2026-10-10",
+  "scope": "macOS development host and isolated fixture; synthetic Makepad input, live public GitHub responses",
+  "host_sha256": "817776cd2de08922badbcbb78728ec71a66d4e9d5c223debc04956110034c927",
+  "host_source": "bb2ac0ac8b2457529ffd29a366df9019012c1c08",
+  "host_prs": [
+    470,
+    471
+  ],
+  "native_steps": {
+    "passed": 94,
+    "total": 94,
+    "receipt_sha256": "ed167c99a8c88590f906e0c87f170e21b9e6fa8568d6a839cca29c8688012e21"
+  },
+  "source_files_sha256": {
+    "AGENT.md": "d89417766ebbf1efc3c3e99c1e0bc525be5faec097e403b8234c7d83c2730e50",
+    "fns/radar.wasm": "b7ef65b5fb1f3561909451a8c4d8b7186ce9f9fef1f028ffdbd1f40453c2695a",
+    "main.splash": "1d0b69d9c3410c81caffd923936335584828f04ecd7940733cdf2e5deda8d032",
+    "tools.json": "869fddc77e504f7af9391de514f52538b9be9a246966087af5cd3de9e70d807f"
+  },
+  "followup": {
+    "receipt_sha256": "cdeeda177a72e5a6c81089764077835175d6136d21a8c4112d7f9cab00a232ff",
+    "checks": [
+      "Pinned Glance route changes the selected workspace from Tokio to Rust",
+      "Unpinned Glance route opens Rust without repinning it",
+      "Unsent draft survives Activity/Releases/Chat tab changes",
+      "Typing continues without refocusing after an in-flight refresh",
+      "Unsent draft survives project change"
+    ],
+    "snapshots_sha256": {
+      "05-tokio-before-route": "40c96b9bc12a273a9752623c8ad523b8d692212bbae28d2247417014a939c312",
+      "08-rust-route-settled": "22ed95051756df57a5fe31b2436513f174ea07aa1e5bc6b346741775ff4ff354",
+      "12-chat-draft-retained": "06b2e28c50b623de2f5f51c4e058a633c856b7e18f9547c44e94f296a1f25d25",
+      "14-chat-focus-retained": "a37b7ae3106a7e8f018cb012e59a887aee806e328da55fefa62e74df13b9149c",
+      "18-unpinned-route-settled": "89ed85625c8e13c2a21a404dfcb3caa48985ce53c3a44dc73149dd6a6ddd842f",
+      "19-draft-after-project-change": "45fa7e1bab90412440c9e966594766bbaefcc4f20769ee60419eafec8d443cbf"
+    },
+    "agent_consent": "Refused through actual native prompt; no model or credentials configured"
+  },
+  "screenshots": {
+    "01-main.png": {
+      "sha256": "6d647d0e8423762c585297cd02c20cc69981a9e4cae396180f5550247e92d734",
+      "source_capture": "03-first-pin.png",
+      "visual_review": "Actual native pixels reviewed; metric values and controls readable. Activity body scrolls; default small workspace requires scrolling to see all chart labels."
+    },
+    "02-glance.png": {
+      "sha256": "ed67925ee06820a2fd322d544b24e0a53ace8ae957c5754405249061d09d93fe",
+      "source_capture": "06a-glance-published.png",
+      "visual_review": "Actual native pixels reviewed; metric values and controls readable. Activity body scrolls; default small workspace requires scrolling to see all chart labels."
+    }
+  },
+  "other_checks": {
+    "rust_unit_tests": 17,
+    "rust_doctests": 1,
+    "native_harness_tests": 11,
+    "rc4_incompatible_install_refusal_steps": 11
+  },
+  "cleanup": "All owned processes exited; no remaining descendants",
+  "unverified": [
+    "Published compatible host installation",
+    "Exact GitHub-attested release installation from public catalog",
+    "Second-version update",
+    "Live model tool calls and answers",
+    "External browser links",
+    "Android, Windows and Linux"
+  ],
+  "retained_failures": [
+    "RC4 WASI TLS provider panic",
+    "Small workspace metric clipping (fixed)",
+    "Invalid L0 dataset fields (fixed)",
+    "Overlay-close omission in scenario (fixed)",
+    "Selection assertion ambiguous on transient widget absence (diagnostics fixed; 27/27 correct samples on passing run)"
+  ]
+}

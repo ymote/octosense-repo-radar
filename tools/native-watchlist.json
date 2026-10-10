@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "App Hub UI installation and public-GitHub watchlist; no model or external browser actions",
+  "scope": "D3-capable candidate/released shell: App Hub UI install and public-GitHub watchlist; no model or external browser actions",
   "steps": [
     {
       "op": "launch",
@@ -155,7 +155,8 @@
     {
       "op": "expect_widget",
       "selector": {
-        "text": "tokio-rs/tokio"
+        "text": "tokio-rs/tokio",
+        "within_id": "sidebar"
       }
     },
     {
@@ -198,6 +199,34 @@
       "field": "pulls"
     },
     {
+      "op": "scroll_until",
+      "selector": {
+        "id": "activity_body"
+      },
+      "until": {
+        "type": "D3BarChart",
+        "within_id": "activity_body",
+        "min_size": [
+          240,
+          120
+        ]
+      },
+      "dy": 100,
+      "max_scrolls": 6
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "type": "D3BarChart",
+        "within_id": "activity_body",
+        "min_size": [
+          240,
+          120
+        ]
+      },
+      "label": "Real D3 widget for fetched PR counts, fully inside Activity viewport with useful chart dimensions."
+    },
+    {
       "op": "capture",
       "name": "03-first-pin"
     },
@@ -217,7 +246,8 @@
     {
       "op": "expect_widget",
       "selector": {
-        "text": "rust-lang/rust"
+        "text": "rust-lang/rust",
+        "within_id": "sidebar"
       }
     },
     {
@@ -376,6 +406,117 @@
     {
       "op": "capture",
       "name": "06-refreshed"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "publish_glance"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "status"
+      },
+      "equals": "Project summary added to Glance."
+    },
+    {
+      "op": "capture",
+      "name": "06a-glance-published"
+    },
+    {
+      "op": "toggle_glance"
+    },
+    {
+      "op": "capture",
+      "name": "06a-glance-closed"
+    },
+    {
+      "op": "type",
+      "selector": {
+        "id": "search"
+      },
+      "text": "tokio-rs/tokio"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "id": "search_submit"
+      }
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "tokio-rs/tokio",
+        "within_id": "sidebar"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "tokio-rs/tokio"
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio",
+          "rust-lang/rust"
+        ],
+        "selected": "tokio-rs/tokio"
+      },
+      "label": "Selecting an already pinned search result persists the selection."
+    },
+    {
+      "op": "restart"
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "tokio-rs/tokio",
+      "timeout": 60
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio",
+          "rust-lang/rust"
+        ],
+        "selected": "tokio-rs/tokio"
+      }
+    },
+    {
+      "op": "capture",
+      "name": "06b-search-pin-selection-restored"
+    },
+    {
+      "op": "click",
+      "selector": {
+        "text": "rust-lang/rust",
+        "within_id": "sidebar"
+      }
+    },
+    {
+      "op": "expect_widget",
+      "selector": {
+        "id": "project_title"
+      },
+      "equals": "rust-lang/rust"
+    },
+    {
+      "op": "expect_watchlist",
+      "equals": {
+        "pins": [
+          "tokio-rs/tokio",
+          "rust-lang/rust"
+        ],
+        "selected": "rust-lang/rust"
+      }
     },
     {
       "op": "restart"

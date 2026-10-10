@@ -1,8 +1,8 @@
 # Repo Radar
 
 A GitHub project watchlist for OctoSense, inspired by a stock watchlist and
-OSSInsight's repository dashboards. Built and published under `ymote` as a
-reproducible example of an OctoSense app with its own Rust component and network
+OSSInsight's repository dashboards. Developed under `ymote`, with publication
+pending, as a reproducible example of an OctoSense app with its own Rust component and network
 access. App ID: `org.ymote.reporadar`. Initial acceptance platform: macOS.
 
 ## Screens and actions

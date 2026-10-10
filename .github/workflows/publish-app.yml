@@ -63,11 +63,18 @@ jobs:
       - uses: dtolnay/rust-toolchain@02cb101ec7c40f2c49e1d9714d64511d8e1b74de
         with:
           toolchain: 1.97.1
+          components: rustfmt, clippy
           targets: wasm32-wasip2
       - name: Build trusted tools
         run: |
           python3 tools/octoscript-makepad/tools/runtime.py prepare --root "$GITHUB_WORKSPACE/tools"
           cargo build --manifest-path tools/app-hub/Cargo.toml --locked --release -p octosense-app-hub
+      - name: Test the tagged app before packaging
+        run: |
+          cargo fmt --manifest-path app/components/radar/Cargo.toml -- --check
+          cargo test --locked --manifest-path app/components/radar/Cargo.toml
+          cargo clippy --locked --manifest-path app/components/radar/Cargo.toml --all-targets -- -D warnings
+          python3 -m unittest discover -s app/tests -p 'test_native_harness.py' -v
       - name: Build the app's Rust components
         # Each crate in components/ (tools/octo wasm new) is built here, from
         # the tagged commit, with the toolchain above. Its component replaces

@@ -11,14 +11,16 @@ Run `hub scan bundle --packet build/review.json` on the final stamped bundle.
    Pins are local, not GitHub stars. The UI labels PRs as a recent sample and star
    changes as observed comparisons, not daily growth. No background monitoring,
    private repository access or complete activity history is advertised.
-   Full live acceptance is still pending; the first released-host test found a
-   WASI HTTPS initialization bug in desktop RC4.
+   Development acceptance passed 94 native steps against live public GitHub.
+   The first released-host test found a WASI HTTPS initialization bug in RC4;
+   the passing development host includes its fix and D3 registration.
 
 2. **Platforms and category.** The listing claims macOS only and productivity.
    Native instrumentation runs on macOS; Android, Windows and Linux are not
    claimed. A compatible full OctoSense shell is required: standalone card-host
-   lacks the Wasm service. D3 charts additionally need `charts.d3@1`; the UI
-   shows explicit text summaries when charts are unavailable.
+   lacks the Wasm service. The manifest requires `host-api-v1` and
+   `charts.d3@1` alongside Wasm component support; RC4 cannot install it.
+   Text summaries for absent charts are defensive UI, not older-host support.
 
 3. **Capabilities and hosts.** `storage` retains the private watchlist and
    bounded public-data cache. `wasm` executes the shipped Rust component. `net`
@@ -62,8 +64,10 @@ Run `hub scan bundle --packet build/review.json` on the final stamped bundle.
    The app has no email, account-write or GitHub-write tool. No tool uses an
    app-supplied confirmation sheet. Live model execution is not yet verified.
 
-8. **Route: human-review.** The source gate and component tests pass, but
-   native full-app acceptance, final screenshot review, a compatible released
-   host, exact GitHub-attested release verification, public catalog installation
-   and a real second-version update are still outstanding. Keep the candidate
-   out of production admission until the relevant evidence is complete.
+8. **Route: human-review.** Component tests, 94 native development steps,
+   Glance route activation, Chat draft/focus checks and screenshot review pass;
+   see `acceptance-2026-10-10.json` for hashes and scope. A compatible published
+   host, exact GitHub-attested release verification and public catalog
+   installation remain outstanding. Keep production admission pending those
+   checks. A real second-version update and live model behavior are separately
+   unverified; neither is implied by first-version development acceptance.
