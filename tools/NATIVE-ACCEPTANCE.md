@@ -70,7 +70,10 @@ publication, use `--catalog-scope github-public`. Both verify `catalog-v2.json`
 and supply no test trust anchor. A valid envelope can come from a dry run, so
 the driver always leaves `public_publication_proof` false; the separate public
 publication/readback receipt establishes that fact. Use `--host-kind released`
-only for a verified downloaded executable.
+only for a verified executable downloaded from a public release. A verified
+Actions package awaiting publication uses `--host-kind release-candidate`;
+bind its receipt to the final public archive bytes, and repeat acceptance if
+signing or packaging changes those bytes.
 For the final ordinary-user path, use `--public-store` instead of either catalog
 option, with `--expected-catalog-sha256` from the independent public readback.
 This requires a released host and leaves every Hub origin/channel/trust override
@@ -116,3 +119,5 @@ RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供�
 `--expected-catalog-sha256`，不传任何目录选项。驱动要求已验证下载的发布宿主，
 不设置 Hub 来源、频道或信任覆盖。安装后验证宿主实际缓存的目录，逐字节匹配
 已发布目录；并发目录变化会使本次验收失败并保留证据，不能用镜像试运行代替。
+尚未公开的 Actions 安装包使用 `--host-kind release-candidate`，不能标为
+`released`。发布后绑定最终公开包的字节；签名或打包改变字节时须重新验收。

@@ -334,7 +334,7 @@ def main():
     os.umask(0o077)
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", type=Path, required=True)
-    parser.add_argument("--host-kind", choices=["development", "released"], required=True)
+    parser.add_argument("--host-kind", choices=["development", "release-candidate", "released"], required=True)
     parser.add_argument("--expected-host-sha256", required=True)
     parser.add_argument("--hub", type=Path, required=True)
     source = parser.add_mutually_exclusive_group(required=True)
