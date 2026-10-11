@@ -17,10 +17,32 @@ and do not invent requirements or APIs:
 - Publisher proof and the submission issue: App Hub's [SUBMITTING](https://github.com/OctoSense-org/OctoSense-App-Hub/blob/main/docs/SUBMITTING.md)
 
 **Repo Radar override:** this app requires a full OctoSense shell with Wasm
-components, `host-api-v1`, `charts.d3@1` and the WASI HTTPS provider fix. The
-standalone card-host loop below cannot run this exact bundle. Use
-[tools/NATIVE-ACCEPTANCE.md](tools/NATIVE-ACCEPTANCE.md) and an isolated full-shell
-profile. Never remove manifest compatibility requirements just to pass a preview.
+components, `host-api-v1`, `charts.d3@1` and the WASI HTTPS provider fix:
+[desktop RC5](https://github.com/OctoSense-org/OctoSense/releases/tag/desktop-v0.1.0-rc.5)
+is the first release with all of them (RC4 panicked on a component's first
+HTTPS request). The standalone card-host loop below cannot run this exact
+bundle. Use [tools/NATIVE-ACCEPTANCE.md](tools/NATIVE-ACCEPTANCE.md) and an
+isolated full-shell profile. Never remove manifest compatibility requirements
+just to pass a preview.
+
+Before a full-shell run, with `OCTO` set as described below, check the component on its own:
+
+1. `cargo test --locked --manifest-path components/radar/Cargo.toml` (18 tests,
+   no network).
+2. `$OCTO wasm build --app .` rebuilds `bundle/fns/radar.wasm` from
+   `components/radar`; with the pinned SDK and Cargo.lock it prints
+   `unchanged bundle/fns/radar.wasm` for the published bytes.
+3. Call a function under the shell's runtime from an OctoSense checkout, as
+   [README § Build and test](README.md#build-and-test) shows
+   (`cargo run -p octosense-wasm-host --example wasm_call -- /path/to/octosense-repo-radar/bundle/fns/radar.wasm radar_search '{"query":"…","page":1}' --storage DIR`);
+   this makes a real GitHub request and writes the state file in `DIR`.
+4. Run `$OCTO check bundle` with a `hub` built from App Hub `main`; expect
+   `— PASSED` with the unsigned warning, the component's reach and crate
+   list, and the destructive-tool warning for `reporadar.unpin`.
+
+Repo Radar is published (App Hub catalog sequence 16, version 0.1.2), so the
+submission rule below for an unpublished app no longer applies: each new
+version gets its own App Hub issue.
 
 The following generated loop applies to simpler card-host-compatible apps.
 Set `OCTO=<path to OctoSense-App-Flow>/tools/octo`, then run this loop
@@ -71,15 +93,16 @@ Follow these rules:
   version/commit, screenshots and permissions, then add the verified release
   pack when ready. Until App Hub first publishes the app, post each new
   release on the same issue and update its title and Version field; after
-  publication, open a new issue for each new version. A release alone does
-  not submit or approve the app.
+  publication, open a new issue for each new version (the rule for Repo Radar since
+  0.1.2). A release alone does not submit or approve the app.
 - Stop at human steps: publisher details, workflow review, platform claims,
   tag and submission, unless already authorized in this session. Respect
   actual approval; never fabricate it.
 - `publisher-github-v1` needs contract 1.8.0 and a compatible host; older
   hosts and `card-host` refuse the sealed release. OctoSense desktop
-  0.1.0-rc.1 and later install GitHub-attested apps (verified on macOS); no
-  phone platform is claimed for Repo Radar. Follow the linked publishing guide
-  for current host-release evidence.
+  0.1.0-rc.1 and later install GitHub-attested apps (verified on macOS), and
+  this app's manifest requirements make desktop RC5 its first compatible
+  release; no phone platform is claimed for Repo Radar. Follow the linked
+  publishing guide for current host-release evidence.
 
 Add this app's own requirements, data sources and tests below.
