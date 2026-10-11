@@ -7,10 +7,13 @@ list after restarting. Pinning is local; it does not star the project on GitHub.
 [Version 0.1.2](https://github.com/ymote/octosense-repo-radar/releases/tag/v0.1.2)
 is published on GitHub. App Hub admission is tracked in
 [submission #202](https://github.com/OctoSense-org/OctoSense-App-Hub/issues/202).
-The exact sealed release passed 93 native steps on a development host using a
-GitHub-signed catalog rehearsal. A compatible desktop release and public-store
-installation are still pending. These results do not establish live model
-answers or public installation.
+The exact sealed release passed 93 native steps on both a development host and
+the official RC5 macOS Actions package using GitHub-signed catalog rehearsals.
+The [packaged RC5 review](review/acceptance-rc5-candidate-0.1.2.json) verifies the
+installed bytes, eight native frames and clean exits. Public host release and
+public-store installation are still pending. These results do not establish
+live model answers, public installation or a performance pass; the packaged run
+recorded seven UI stalls of 286–2131 ms.
 
 Version **0.1.2** carries the 0.1.1 UX revision following OctoSense App Flow:
 compact watchlist rows, a complete chart on the opening screen, one consistent
@@ -64,8 +67,9 @@ Native charts use Makepad D3. The current manifest requires `host-api-v1` and
 `charts.d3@1` alongside Wasm component support, so RC4 cannot install it. Desktop RC4
 loads the Rust component, but live acceptance found that its WASI HTTPS path
 panics when choosing a TLS provider. It also does not register D3. The HTTPS fix
-and D3 host addition are merged, and the compatible RC5 package is being built;
-RC4 is not a working networking baseline. The text fallback is defensive UI,
+and D3 host addition are merged, and the official RC5 Mac package passed the
+app's native acceptance while the combined release awaits its remaining
+packages. RC4 is not a working networking baseline. The text fallback is defensive UI,
 not a claim of older-host support. Android is not claimed.
 
 PR activity covers one recent page, not all project history. Star changes mean
