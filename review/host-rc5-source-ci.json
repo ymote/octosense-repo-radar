@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "record_kind": "derived_final_exact_source_ci_status",
+  "recorded_at": "2026-10-11T02:21:26.242524+00:00",
+  "tag": "desktop-v0.1.0-rc.5",
+  "source_commit": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+  "source_tree": "b10f9f7e71b73d5bae8b9688e469b4b6d3bfde8b",
+  "required_source_workflows_covered": true,
+  "local_desktop_phone": {
+    "receipt_sha256": "8265969f84e92c61de8c794847cc127b8bd25747d9d419c40ba0098fde75a184",
+    "public_summary_sha256": "1f40f62f4903559e8d78adae2fe8acad94ff33c1d543a0945ccafa4ee77d5807",
+    "workflow_digests_match_release_source": true,
+    "steps_passed": 28,
+    "steps_total": 28,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 2133.0,
+    "clean": true,
+    "versions": {
+      "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+      "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+      "python3": "Python 3.9.6"
+    },
+    "limitations": [
+      "GitHub runs Python 3.12; this run used Python 3.9.6"
+    ]
+  },
+  "github_runs": [
+    {
+      "id": 38095391762,
+      "name": "Apps and services",
+      "url": "https://github.com/OctoSense-org/OctoSense/actions/runs/38095391762",
+      "head_sha": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+      "event": "push",
+      "conclusion": "success"
+    },
+    {
+      "id": 38095391795,
+      "name": "WebAssembly on Windows",
+      "url": "https://github.com/OctoSense-org/OctoSense/actions/runs/38095391795",
+      "head_sha": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+      "event": "push",
+      "conclusion": "success"
+    },
+    {
+      "id": 38095391809,
+      "name": "Embedded browser",
+      "url": "https://github.com/OctoSense-org/OctoSense/actions/runs/38095391809",
+      "head_sha": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+      "event": "push",
+      "conclusion": "success"
+    },
+    {
+      "id": 38097879357,
+      "name": "Desktop",
+      "url": "https://github.com/OctoSense-org/OctoSense/actions/runs/38097879357",
+      "head_sha": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+      "event": "workflow_dispatch",
+      "conclusion": "success"
+    },
+    {
+      "id": 38097881582,
+      "name": "Phone",
+      "url": "https://github.com/OctoSense-org/OctoSense/actions/runs/38097881582",
+      "head_sha": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+      "event": "workflow_dispatch",
+      "conclusion": "cancelled"
+    }
+  ],
+  "original_main_runs": {
+    "desktop": {
+      "run_id": 38095391761,
+      "conclusion": "cancelled"
+    },
+    "phone": {
+      "run_id": 38095391767,
+      "conclusion": "cancelled"
+    }
+  },
+  "supplemental_phone_cancellation_reason": "The exact-source local Desktop and Phone 28/28 pass completed the required coverage; the redundant owned Phone rerun was cancelled to release its hosted macOS runner slot. No cancelled run is counted as passed.",
+  "initial_ci_binding_sha256": "90e49248d2ce724c50797befdcac347ce5946141f8331aeda591bbd49b53751a",
+  "package_signing_and_gui_acceptance_included": false
+}

@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "record_kind": "derived_final_macos_release_byte_binding",
+  "recorded_at": "2026-10-11T02:24:33.457057+00:00",
+  "tag": "desktop-v0.1.0-rc.5",
+  "source_commit": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+  "source_tree": "b10f9f7e71b73d5bae8b9688e469b4b6d3bfde8b",
+  "workflow_url": "https://github.com/OctoSense-org/OctoSense/actions/runs/38095460684",
+  "workflow_conclusion": "success",
+  "release_id": 409344520,
+  "canonical_release_url": "https://github.com/OctoSense-org/OctoSense/releases/tag/desktop-v0.1.0-rc.5",
+  "draft_at_full_asset_verification": true,
+  "full_asset_verification_sha256": "0ebfc5ae7e6e7af1829fbc58f7d9bdcea021a639c4a0febb959b91185801d6ff",
+  "candidate_verification_sha256": "442c4f33aaa459bfd0d370dc8f6e6d51bc3e7a70624c55e257762f42e11a7afe",
+  "native_receipt_sha256": "ff57e70c1eb8eba2a6a649aae95ac9e0d62bb008ac9610ccca22634db1ea82db",
+  "independent_review_sha256": "68ccbd2f3c72faf37f46d78d8aef0a209219d6b1b452500f55d2054f595fd8cb",
+  "independent_review_url": "https://github.com/ymote/octosense-repo-radar/blob/e8c87860d118264e362c9c4f4af6586caf9a2e2d/review/acceptance-rc5-candidate-0.1.2.json",
+  "executable_sha256": "5832d72f5a1a3b185680763f4e6bb67d631726a11ce795ac24ef9e7c4fc17758",
+  "macos_assets": [
+    {
+      "name": "OctoSense_0.1.0-rc.5_aarch64.dmg",
+      "candidate_sha256": "b49354dd8a59e9ad80a5d71602a782b911c9f550ebad7483acc84467c555d750",
+      "final_sha256": "b49354dd8a59e9ad80a5d71602a782b911c9f550ebad7483acc84467c555d750",
+      "size": 280332117,
+      "asset_id": 629554251,
+      "unchanged": true
+    },
+    {
+      "name": "OctoSense_0.1.0-rc.5_macos-arm64.receipt.json",
+      "candidate_sha256": "37c51c8d0b7e042f15b70ea4a9728784c1a71dee13e7d50fdfaa839f088ee45c",
+      "final_sha256": "37c51c8d0b7e042f15b70ea4a9728784c1a71dee13e7d50fdfaa839f088ee45c",
+      "size": 868,
+      "asset_id": 629554260,
+      "unchanged": true
+    },
+    {
+      "name": "OctoSense_0.1.0-rc.5_macos_aarch64.app.zip",
+      "candidate_sha256": "8b27c3eecc088011161d921c654911d8299e204964d4a1c0b70a785d8f5836de",
+      "final_sha256": "8b27c3eecc088011161d921c654911d8299e204964d4a1c0b70a785d8f5836de",
+      "size": 280783973,
+      "asset_id": 629554256,
+      "unchanged": true
+    }
+  ],
+  "final_release_bytes_equal_tested_candidate": true,
+  "native_checks_passed": 93,
+  "native_checks_total": 93,
+  "original_host_kind": "release-candidate",
+  "original_catalog_scope": "github-dry-run",
+  "catalog_envelope_sha256": "717817528dff82ab352180589e10d8fc166552273182ae744e2ba9c429899c99",
+  "sealed_app_version": "0.1.2",
+  "sealed_app_pack_sha256": "62fb0262fa9139675abbd286f71d23efd385eb16697ec6341c12893d216067c3",
+  "clean_sessions": 5,
+  "independent_visual_review_passed": true,
+  "scope": "Functional and visual acceptance transfers to byte-identical final macOS release packages; original candidate receipt and review remain unchanged.",
+  "publication_verified_by_this_record": false,
+  "default_public_store_acceptance": false,
+  "signing_status_verified_by_this_record": false,
+  "performance_acceptance": false,
+  "limitations": [
+    "Seven UI-hang samples range from 286 to 2131 ms; this functional/visual result does not establish latency acceptance.",
+    "No Windows/Linux GUI, Android, live model, physical input, external-link navigation or Glance Open project activation acceptance is implied.",
+    "Restart screenshots captured Loading; durable pin and selection assertions passed, but the frames do not prove completed network reload.",
+    "Final release publication/public download readback and default public Store installation are separate gates."
+  ],
+  "preserved_failures": [
+    {
+      "run": "octosense-rc5-reporadar-acceptance-001",
+      "receipt_sha256": "cdd96e9074e51782ec9dfcec18f77179cc15d6b0fe0beca647d05402dd9e9c9b",
+      "reason": "Original ambiguous Get selector before search filtering settled; five checks completed, clean exit, evidence retained."
+    },
+    {
+      "kind": "raw-compressed-ZIP-identity-scan",
+      "log_sha256": "d2dde490c726f7338dbec193c9e56dd0a39fa0b11208d8dfd3ac2297d5ec8891",
+      "independent_byte_review_sha256": "5b6c2a745afab88849fca22069a81d4f4c1b0000ef057b85b3178a8cb9544f82",
+      "disposition": "Exact single raw match inside DEFLATE data; CRC-valid decoded executable has zero identity matches. Original failed scanner outcome preserved, no rule exception or package changes."
+    }
+  ]
+}
