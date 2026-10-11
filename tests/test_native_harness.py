@@ -212,6 +212,72 @@ class HarnessTests(unittest.TestCase):
             native.select(rows, {"text": "rust-lang/rust"})
         self.assertEqual(native.select(rows, {"text": "rust-lang/rust", "within_id": "sidebar"})["r"], [10, 100, 180, 25])
 
+    def store_rows(self, name="Repo Radar"):
+        return [
+            {"i": "search", "ty": "TextInput", "t": "Repo Radar", "val": "Repo Radar", "r": [100, 30, 700, 40], "w": 0},
+            {"i": "list", "ty": "PortalList", "r": [80, 100, 800, 500], "w": 0},
+            {"i": "row", "ty": "View", "r": [100, 190, 760, 90], "w": 0},
+            {"i": "name", "ty": "Label", "t": name, "r": [240, 205, 300, 24], "w": 0},
+            {"i": "action", "ty": "Button", "t": "Get", "r": [700, 210, 80, 44], "w": 0},
+        ]
+
+    def test_store_filter_settles_before_one_identity_bound_click(self):
+        ui = self.instrument()
+        ui.check_logs = Mock()
+        pending = self.store_rows() + [{"i": "row", "ty": "View", "r": [100, 290, 760, 90], "w": 0}]
+        ui.rows = Mock(side_effect=[pending, self.store_rows("Another app"), self.store_rows()])
+        ui.call = Mock(side_effect=[{"w": [{"i": 0, "sz": [1000, 700]}]}, {}])
+        with patch.object(native.time, "sleep"):
+            ui.click_store_result("Repo Radar")
+        self.assertEqual(ui.rows.call_count, 3)
+        self.assertEqual([c.args[0] for c in ui.call.call_args_list], ["s", "click"])
+        self.assertEqual(ui.call.call_args_list[-1].kwargs, {"x": 740.0, "y": 232.0, "wait": 1, "w": 0})
+        self.assertEqual(ui.actions[0]["observations"], {"ambiguous": 1, "missing_or_unsettled": 1, "matched": 1})
+        self.assertFalse(ui.actions[0]["additional_input"])
+
+    def test_permanently_ambiguous_store_results_fail_without_input(self):
+        ui = self.instrument()
+        ui.check_logs = Mock()
+        ui.call = Mock()
+        ui.rows = Mock(return_value=self.store_rows() + [
+            {"i": "row", "ty": "View", "r": [100, 290, 760, 90], "w": 0}])
+        with patch.object(native.time, "sleep"), patch.object(native.time, "monotonic", side_effect=[0, 0, 31]):
+            with self.assertRaisesRegex(TimeoutError, "did not settle"):
+                ui.click_store_result("Repo Radar")
+        ui.call.assert_not_called()
+        self.assertEqual(ui.actions[0]["observations"]["ambiguous"], 1)
+
+    def test_search_text_alone_cannot_authorize_another_apps_get_button(self):
+        ui = self.instrument()
+        ui.check_logs = Mock()
+        ui.call = Mock()
+        ui.rows = Mock(return_value=self.store_rows("Another app"))
+        with patch.object(native.time, "sleep"), patch.object(native.time, "monotonic", side_effect=[0, 0, 31]):
+            with self.assertRaises(TimeoutError):
+                ui.click_store_result("Repo Radar")
+        ui.call.assert_not_called()
+
+    def test_store_get_must_be_inside_the_same_named_result_and_window(self):
+        for change in ({"r": [700, 310, 80, 44]}, {"w": 1}):
+            with self.subTest(change=change):
+                rows = self.store_rows()
+                rows[-1].update(change)
+                self.assertIsNone(native.store_result(rows, "Repo Radar"))
+
+    def test_store_wait_does_not_hide_other_assertions_or_unbounded_timeout(self):
+        ui = self.instrument()
+        ui.check_logs = Mock()
+        ui.call = Mock()
+        ui.rows = Mock(return_value=[])
+        with patch.object(native, "store_result", side_effect=AssertionError("Invalid minimum widget size")):
+            with self.assertRaisesRegex(AssertionError, "Invalid minimum"):
+                ui.click_store_result("Repo Radar")
+        for timeout in (0, -1, 121, float("inf"), float("nan"), True, "30"):
+            with self.subTest(timeout=timeout):
+                with self.assertRaisesRegex(AssertionError, "store result timeout"):
+                    ui.click_store_result("Repo Radar", timeout)
+        ui.call.assert_not_called()
+
     def test_scoping_does_not_select_a_different_window_or_clipped_row(self):
         rows = [{"i": "sidebar", "r": [0, 0, 280, 600], "window_id": 1},
                 {"t": "repo", "r": [10, 100, 180, 25], "window_id": 2},

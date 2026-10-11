@@ -68,6 +68,14 @@ timeout). Every failed observation is recorded. Other HTTP errors, native error
 responses and retry exhaustion remain failures; a retry is not an acceptance
 assertion or proof that the input succeeded.
 
+After typing the store search, `click_store_result` waits up to 30 seconds using
+read-only snapshots. It requires the exact query, one visible result row inside
+the list, and both the **Repo Radar** label and **Get** action inside that same
+row and window. Search-field text alone cannot identify a result. Missing or
+temporarily ambiguous rows are recorded and observed again; permanent ambiguity
+times out without input. Only then does it send one normal click. Other selector
+errors remain failures; the general selector still refuses ambiguity immediately.
+
 The post-install `scroll_until` step allows 90 seconds of read-only observation
 after its final permitted scroll, because installing is asynchronous. It sends
 no additional input and still fails unless the Installed notice appears. Other
@@ -141,6 +149,11 @@ RC4 没有该注册，首次保留的 RC4 测试还暴露了组件 HTTPS 提供�
 `/snap`、`/s`、`/g` 遇到 HTTP 404 时才重试，最多八次，间隔 250 毫秒；每次请求
 仍有 25 秒超时。每次失败均保留记录，其他 HTTP 错误、原生错误响应及重试耗尽
 仍然失败。观察重试不能代替行为断言，也不能证明输入已成功。
+输入商店搜索后，`click_store_result` 最多只读观察 30 秒，要求查询完全匹配、列表内
+仅有一个可见结果行，且 **Repo Radar** 标签与 **Get** 按钮位于同一行、同一窗口。
+搜索框中的文字不能代替结果身份。缺失或暂时歧义会记录并继续观察；持续歧义超时
+失败，不发送输入。满足条件后才点击一次。其他选择器错误仍然失败，普通选择器仍
+立即拒绝歧义。
 安装是异步操作，因此安装后的 `scroll_until` 在最后一次允许的滚动结束后，可只读
 观察 90 秒，不再发送输入；未出现 Installed 提示仍然失败。其他滚动步骤没有额外
 观察等待，耗尽次数即失败。显式 `timeout` 必须大于零且不超过 120 秒。

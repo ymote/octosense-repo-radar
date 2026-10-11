@@ -30,10 +30,9 @@
       "text": "Repo Radar"
     },
     {
-      "op": "click",
-      "selector": {
-        "text": "Get"
-      }
+      "op": "click_store_result",
+      "name": "Repo Radar",
+      "timeout": 30
     },
     {
       "op": "expect_widget",

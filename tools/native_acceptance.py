@@ -33,6 +33,10 @@ def require(value, message):
     return value
 
 
+class AmbiguousSelector(AssertionError):
+    pass
+
+
 def catalog_scope(development, requested, public_store=False):
     if public_store:
         require(not development and requested is None, "Public store uses the host's default catalog, without a scope override")
@@ -89,8 +93,30 @@ def select(rows, selector):
             if row.get("window_id", row.get("w")) != container.get("window_id", container.get("w")):
                 continue
         candidates.append(row)
-    require(len(candidates) <= 1, "Ambiguous selector; refine it: " + str(selector))
+    if len(candidates) > 1:
+        raise AmbiguousSelector("Ambiguous selector; refine it: " + str(selector))
     return candidates[0] if candidates else None
+
+
+def store_result(rows, name):
+    """Bind the action to the named result, not the search field's text."""
+    query = select(rows, {"id": "search", "type": "TextInput"})
+    if query is None or query.get("val", query.get("t")) != name:
+        return None
+    row = select(rows, {"id": "row", "type": "View", "within_id": "list"})
+    if row is None:
+        return None
+    x, y, width, height = row["r"]
+    scoped = []
+    for widget in rows:
+        rect = widget.get("r", [0, 0, 0, 0])
+        if (len(rect) == 4 and widget.get("window_id", widget.get("w")) == row.get("window_id", row.get("w"))
+                and x <= rect[0] and y <= rect[1] and rect[0] + rect[2] <= x + width + 1
+                and rect[1] + rect[3] <= y + height + 1):
+            scoped.append(widget)
+    if select(scoped, {"id": "name", "type": "Label", "text": name}) is None:
+        return None
+    return select(scoped, {"id": "action", "type": "Button", "text": "Get"})
 
 
 def processes():
@@ -209,6 +235,30 @@ class Native:
 
     def click(self, selector):
         row = self.wait(lambda: select(self.rows(), selector))
+        return self.click_row(row, selector)
+
+    def click_store_result(self, name, timeout=30):
+        require(name == "Repo Radar", "Only the intended Repo Radar result can be installed")
+        require(type(timeout) in (int, float) and math.isfinite(timeout)
+                and 0 < timeout <= 120, "Invalid store result timeout")
+        observations = {"missing_or_unsettled": 0, "ambiguous": 0, "matched": 0}
+        self.actions.append({"op": "wait_store_result", "name": name, "timeout": timeout,
+                             "observations": observations, "additional_input": False})
+
+        def expected_result():
+            try:
+                row = store_result(self.rows(), name)
+            except AmbiguousSelector:
+                observations["ambiguous"] += 1
+                return None
+            observations["matched" if row else "missing_or_unsettled"] += 1
+            return row
+
+        row = self.wait(expected_result, timeout)
+        return self.click_row(row, {"id": "action", "type": "Button", "text": "Get",
+                                    "within_id": "row"})
+
+    def click_row(self, row, selector):
         require(row.get("enabled", True), "Target is disabled")
         x, y, width, height = row["r"]
         require(width >= 8 and height >= 8, "Target is too clipped for a reliable native click")
@@ -469,6 +519,8 @@ def main():
                 require(ui is not None, "Scenario must launch before input")
                 if op == "click":
                     ui.click(step["selector"])
+                elif op == "click_store_result":
+                    ui.click_store_result(step["name"], step.get("timeout", 30))
                 elif op == "type":
                     selector = step["selector"]
                     ui.click(selector)
