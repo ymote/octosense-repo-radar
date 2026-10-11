@@ -1,0 +1,296 @@
+{
+  "schema": 1,
+  "reviewed_at": "2026-10-11T02:34:18.091714+00:00",
+  "run": "repo-radar-public-store-0.1.2-001",
+  "status": "scoped_functional_acceptance_passed_with_visual_and_performance_limits",
+  "receipt_sha256": "a65d0e2dc1a8af768941fcd6088150498479ec5363c88de5eaa93815424867f3",
+  "checks_passed": 93,
+  "checks_total": 93,
+  "app": {
+    "id": "org.ymote.reporadar",
+    "version": "0.1.2",
+    "source_commit": "e18eb6a88b74398c5df2472d6fd5c0a3d6a1d50b",
+    "pack_sha256": "62fb0262fa9139675abbd286f71d23efd385eb16697ec6341c12893d216067c3",
+    "installed_file_count": 9,
+    "installed_files_match_sealed_release": true,
+    "installed_files_sha256": {
+      "AGENT.md": "d89417766ebbf1efc3c3e99c1e0bc525be5faec097e403b8234c7d83c2730e50",
+      "tools.json": "869fddc77e504f7af9391de514f52538b9be9a246966087af5cd3de9e70d807f",
+      "listing.json": "81ae321131edcbc127c508d81d6465b30f4105b677b8d4b0611b1f59ce74ba85",
+      "main.splash": "6830d6dba3addbd8304ddf11bd04c828989a35e33633fba69e3b568d89f024bb",
+      "manifest.json": "c655f07c299a805bc8590351cd65a8c972ad80214a13ab2ee3a2bfd75c8a04b1",
+      "screenshots/02-releases.png": "a889c6b57e9dbb3b72209f7021381335ca61872a8b9667689b15a77abcddb59d",
+      "screenshots/01-main.png": "8d3e08866cd0aaa7ee9de87f8b4d5f87aae384f5ba351a5f49c7750637a898f4",
+      "fns/radar.wasm": "d0ee1835711ed4b1c952f564789d96c160d02035b1d2104db1388e6affdbc757",
+      "assets/icon.svg": "85acb31d245f6a12198ab21e85505d70303bcf68ae0b4328fbb83b5be020bd40"
+    }
+  },
+  "host": {
+    "tag": "desktop-v0.1.0-rc.5",
+    "source_commit": "83d356c261f755fe4bb446e331c1508a78ee29f2",
+    "executable_sha256": "5832d72f5a1a3b185680763f4e6bb67d631726a11ce795ac24ef9e7c4fc17758",
+    "archive_sha256": "8b27c3eecc088011161d921c654911d8299e204964d4a1c0b70a785d8f5836de",
+    "unchanged_after_run": true
+  },
+  "harness": {
+    "source_commit": "d48d10111098455bcee2ecd768f63754fe32ad88",
+    "sha256": "a70e1d59b5fcbaa7f749e3b11b5ccde4ba6d515ecc108891a4bedf3d9d66c476",
+    "support_sha256": "e8045963debca906c34fd48b7a23a41417508bf30b68e9e5c4baef6eb65f6bb5",
+    "scenario_sha256": "78ed965fc546b4adb3e7e4a7faebbe961c0ba66e54fb42fc533b6b0b0dbda37b",
+    "input": "Owned native instrument synthetic events; no physical-human input claim",
+    "read_only_instrument_errors": 2,
+    "input_replays": 0
+  },
+  "catalog": {
+    "origin": "host-default-public-store",
+    "overrides": false,
+    "sequence": 16,
+    "envelope_sha256": "5f1ae71e0b3ef87536be5af2f6a1c0e2c79501907a232fc23e9d9d318bc05c52",
+    "native_verification": {
+      "payload_sha256": "b12e9e24022f6e7dbac177cc997a994b968c7ccfcb21a475c3217c6cedc63be3",
+      "schema": 2,
+      "sequence": 16
+    },
+    "raw_native_receipt_public_publication_proof": false,
+    "publication_proof_source": "Separate production readback receipt; native receipt deliberately does not assert publication alone"
+  },
+  "state": {
+    "export_sha256": "b526c4b0b05e71d41e780cba3d43fda5edb9fef6a0869545b6a7647ad86cf3ae",
+    "persisted_file_sha256": "e0c7276ec091a6cfb5e1c08b2a4111030d7d941c21913ce1623b5abba85cf5be",
+    "export_semantically_matches_persisted_state": true,
+    "schema": 1,
+    "revision": 12,
+    "pin_count": 0,
+    "selected_repo_id": null
+  },
+  "cleanup": {
+    "session_count": 5,
+    "all_exit_zero": true,
+    "forced": false,
+    "remaining_descendants": 0,
+    "original_process_ids_absent_at_review": true
+  },
+  "logs": [
+    {
+      "file": "session-1.log",
+      "sha256": "8bed608b50f3af09ed5c7988d4873a09ceb28f41e1b8594423b7dcea9de09728",
+      "hard_marker_counts": {
+        "ScriptError": 0,
+        "callback error": 0,
+        "on_render closure failed": 0,
+        "panicked at": 0,
+        "thread panicked": 0,
+        "[ERROR]": 0
+      },
+      "ui_hang_ms": [
+        1450,
+        330,
+        1207
+      ]
+    },
+    {
+      "file": "session-2.log",
+      "sha256": "1619f5f69341f0d7daaffc71c840ee54c45ca190c3e5c27c297199a67649a1ab",
+      "hard_marker_counts": {
+        "ScriptError": 0,
+        "callback error": 0,
+        "on_render closure failed": 0,
+        "panicked at": 0,
+        "thread panicked": 0,
+        "[ERROR]": 0
+      },
+      "ui_hang_ms": [
+        556
+      ]
+    },
+    {
+      "file": "session-3.log",
+      "sha256": "c44bc6f82cf995e9f4a52f50979e565ea15e51e52acc5ee5177fad2abd8f0b8b",
+      "hard_marker_counts": {
+        "ScriptError": 0,
+        "callback error": 0,
+        "on_render closure failed": 0,
+        "panicked at": 0,
+        "thread panicked": 0,
+        "[ERROR]": 0
+      },
+      "ui_hang_ms": [
+        391
+      ]
+    },
+    {
+      "file": "session-4.log",
+      "sha256": "80bb254f0052d00882ab523dc05cf6fa20d60b07bce56b0003be0ae3f2e3e8f1",
+      "hard_marker_counts": {
+        "ScriptError": 0,
+        "callback error": 0,
+        "on_render closure failed": 0,
+        "panicked at": 0,
+        "thread panicked": 0,
+        "[ERROR]": 0
+      },
+      "ui_hang_ms": [
+        3392,
+        624
+      ]
+    },
+    {
+      "file": "session-5.log",
+      "sha256": "4e31d9844255cd49f008ef62827982e5166ec5bcd156957c387dfad391d5bfd8",
+      "hard_marker_counts": {
+        "ScriptError": 0,
+        "callback error": 0,
+        "on_render closure failed": 0,
+        "panicked at": 0,
+        "thread panicked": 0,
+        "[ERROR]": 0
+      },
+      "ui_hang_ms": [
+        3730,
+        527
+      ]
+    }
+  ],
+  "model_or_credentials_configured": false,
+  "raw_evidence_modified": false,
+  "publication": {
+    "verified": true,
+    "workflow_run": 38104798992,
+    "workflow_commit": "d86101d7206162b73ea873e2a31b48364600a110",
+    "candidate_commit": "4108aeafca13a06cef707e6fa796299f0548a5ae",
+    "public_commit": "8d3853c9f9b6604fa1d095e7aff20911093e273a",
+    "payload_sha256": "b12e9e24022f6e7dbac177cc997a994b968c7ccfcb21a475c3217c6cedc63be3",
+    "readback_receipt_sha256": "d78b2458f74d6a648523aac6ca76fe44bdef31c826366ca9b832c79ef0caa70c",
+    "public_host_download_receipt_sha256": "478a82aa6e4fe71961139652f84a05c4192d8afb355b1db5038bba7414c80d69",
+    "sealed_app_verification_receipt_sha256": "432e9c988fb68c624481c9142a2e97e39425c4d4d81aeca0feb890b670b33bb5"
+  },
+  "native_frames_reviewed": [
+    {
+      "file": "01-installed.png",
+      "sha256": "bd084305cf4a34a033358911a7fff06edd4fbf2db3c775411fef161e48f144ee",
+      "snapshot_sha256": "02dbfd7bd9691c2fa3a0e61fe3ea77bd4deba22e112ff3f90d80e9a33e3c1329",
+      "assessment": "Native App Hub shows Repo Radar, publisher ymote, Installed confirmation and Open action."
+    },
+    {
+      "file": "03-first-pin.png",
+      "sha256": "1563f1447bed5247f0ac4f673c26af36e8da94def9effb9de99b441c8e0b1da1",
+      "snapshot_sha256": "4f8521209dfb8e43ffc05c1bb9dc9ba2362645201b2d938b1980bf94efd0c68d",
+      "assessment": "Tokio selected and pinned; complete native D3 chart and sample coverage visible. First PR title blank in pixels despite populated LinkLabel and cached title; metadata remains visible."
+    },
+    {
+      "file": "04-reordered.png",
+      "sha256": "b674f5dc34651015f1c9ef6f068b9bdfc20f235be538f00b1882a3bbd4a11a6d",
+      "snapshot_sha256": "29c8e1e73fb6b2448c1a3f01979bca0a8b53580701cb65155626b9f48195fb52",
+      "assessment": "Two pins visible with Rust selected, full chart, Watchlist order saved status and readable first Rust PR title."
+    },
+    {
+      "file": "05-releases.png",
+      "sha256": "6d3f7b671984b0f687d5e557405c9e27425346736c6df5ab91027490d350b0b4",
+      "snapshot_sha256": "6d0e4374b8257cc87d05522e0bd9e8538dd952b5fd78ceb7b2e6aa6d42dcc617",
+      "assessment": "Rust 1.99.0 release Markdown bullets and inline code readable; body continues below viewport."
+    },
+    {
+      "file": "06a-glance-published.png",
+      "sha256": "0bdf38b081e963e9970c8b636e3d5ba559511232f2bc8fda85987eee1c07bd11",
+      "snapshot_sha256": "ebdff6dbd2459254912cc9e6812a3fca5c242b2b7693f3b7281ebd2543ad481b",
+      "assessment": "Actual Glance sidebar shows Rust summary, metrics and Open project button; activation is not exercised by this run."
+    },
+    {
+      "file": "06b-search-pin-selection-restored.png",
+      "sha256": "c1bce5f361a2610956d4076615018c519bb505c14b8a41eead6afba54c04f1f8",
+      "snapshot_sha256": "11e1ba3b49501842474baf1ab7e9e5b6e46de71aee14cc4b926d38539dd2982d",
+      "assessment": "Tokio restored as selection with both pins; captured body says Loading activity. Does not prove settled chart pixels after restart."
+    },
+    {
+      "file": "07-restart-persistence.png",
+      "sha256": "2f859d05cf0ea4f1dd3a778f7976aa5fef3834d7b6f6492852beaa81c9d73580",
+      "snapshot_sha256": "1b763ce1207743828e9dbe6b8f03b3a492acb66cd5bf79aed016c60345bbc17f",
+      "assessment": "Rust restored as selection with both pins; captured body says Loading activity. Persistence also checked in component state."
+    },
+    {
+      "file": "09-empty-persistence.png",
+      "sha256": "2acefe743972d99d37bfc150ab5d38f31771da7a540c4b61dc9f7435f6eb7e48",
+      "snapshot_sha256": "31a3057c94f75db9dc85533b5370e20da68f73ed5a60d1fbb16b9754d548bda3",
+      "assessment": "Empty watchlist and helpful empty-state actions visible after restart; footer captured during Opening your watchlist."
+    }
+  ],
+  "consent": {
+    "observed_native_prompt": "App Hub optional agent",
+    "action": "Declined using the point observed in this run",
+    "image_sha256": "e6cb573e9db807e13cda22ae0569d3a40810c63c75b1f2dc446e2258b79036f2",
+    "no_model_reply_claim": true
+  },
+  "wasm_network_evidence": {
+    "basis": "Fresh isolated profile, unchanged installed sealed Rust Wasm component, real UI search/overview/PR/release calls, public GitHub cache records and native data views; no network-packet trace claimed.",
+    "component_sha256": "d0ee1835711ed4b1c952f564789d96c160d02035b1d2104db1388e6affdbc757",
+    "search_cache_count": 2,
+    "repository_summary_count": 20,
+    "fetched": [
+      {
+        "repository": "tokio-rs/tokio",
+        "endpoints": [
+          {
+            "kind": "overview",
+            "observed_utc": "2026-10-11T02:29:00+00:00",
+            "checked_utc": "2026-10-11T02:29:00+00:00",
+            "items": null
+          },
+          {
+            "kind": "pulls",
+            "observed_utc": "2026-10-11T02:29:02+00:00",
+            "checked_utc": "2026-10-11T02:29:02+00:00",
+            "items": 10
+          }
+        ]
+      },
+      {
+        "repository": "rust-lang/rust",
+        "endpoints": [
+          {
+            "kind": "overview",
+            "observed_utc": "2026-10-11T02:29:04+00:00",
+            "checked_utc": "2026-10-11T02:29:13+00:00",
+            "items": null
+          },
+          {
+            "kind": "pulls",
+            "observed_utc": "2026-10-11T02:29:06+00:00",
+            "checked_utc": "2026-10-11T02:29:14+00:00",
+            "items": 10
+          },
+          {
+            "kind": "releases",
+            "observed_utc": "2026-10-11T02:29:11+00:00",
+            "checked_utc": "2026-10-11T02:29:11+00:00",
+            "items": 5
+          }
+        ]
+      }
+    ]
+  },
+  "visual_finding": {
+    "status": "unresolved_in_original_run",
+    "frame": "03-first-pin.png",
+    "repository": "tokio-rs/tokio",
+    "pull_request": 8622,
+    "cached_and_snapshot_title": "rt: cache-pad the shared injection queue and idle state",
+    "snapshot_widget_type": "LinkLabel",
+    "snapshot_rectangle": [
+      327,
+      565,
+      687,
+      21
+    ],
+    "source": "bundle/main.splash:485 binds Link.text to pull.title",
+    "conclusion": "Title data is present but not drawn in this captured frame. Cause is unproven. Separate unchanged-byte focused follow-up must not erase this finding."
+  },
+  "limits": [
+    "No blanket UX or performance pass: nine UI stalls, 330 to 3730 ms, recorded in logs.",
+    "Original missing PR title remains unresolved; separate focused observation is additive evidence only.",
+    "Restart captures precede settled activity, so claim persisted watchlist/selection rather than settled chart rendering after restart.",
+    "No live model/agent replies, human physical input, Android, external browser navigation, in-place app update, or Glance Open project activation validated here.",
+    "Raw native receipt public_publication_proof remains false; separate verified production readback completes publication evidence.",
+    "Earlier failed install/filter races remain preserved in their original runs."
+  ],
+  "conclusion": "The exact public RC5 download and default public App Hub catalog installed the exact sealed v0.1.2 bundle. Anonymous GitHub data through its Rust Wasm component, native charts/releases, pin selection/order/removal, Glance publication, and restart persistence passed the scoped 93-step run, with documented visual and performance limitations."
+}

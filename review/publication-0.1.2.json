@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "public_publication_proof": true,
+  "scope": "anonymous full public catalog and exact admitted-file downloads",
+  "workflow_run": "https://github.com/OctoSense-org/OctoSense-App-Hub/actions/runs/38104798992",
+  "workflow_commit": "d86101d7206162b73ea873e2a31b48364600a110",
+  "candidate": "ymote-repo-radar-0-1-2-20261011",
+  "candidate_commit": "4108aeafca13a06cef707e6fa796299f0548a5ae",
+  "public_commit": "8d3853c9f9b6604fa1d095e7aff20911093e273a",
+  "catalog_sequence": 16,
+  "payload_sha256": "b12e9e24022f6e7dbac177cc997a994b968c7ccfcb21a475c3217c6cedc63be3",
+  "envelope_sha256": "5f1ae71e0b3ef87536be5af2f6a1c0e2c79501907a232fc23e9d9d318bc05c52",
+  "app_id": "org.ymote.reporadar",
+  "version": "0.1.2",
+  "pack_sha256": "62fb0262fa9139675abbd286f71d23efd385eb16697ec6341c12893d216067c3",
+  "files": {
+    "artifacts/org.ymote.reporadar-0.1.2.bundle.pack.json": {
+      "bytes": 9957909,
+      "sha256": "62fb0262fa9139675abbd286f71d23efd385eb16697ec6341c12893d216067c3"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/AGENT.md": {
+      "bytes": 2106,
+      "sha256": "d89417766ebbf1efc3c3e99c1e0bc525be5faec097e403b8234c7d83c2730e50"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/assets/icon.svg": {
+      "bytes": 473,
+      "sha256": "85acb31d245f6a12198ab21e85505d70303bcf68ae0b4328fbb83b5be020bd40"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/fns/radar.wasm": {
+      "bytes": 497521,
+      "sha256": "d0ee1835711ed4b1c952f564789d96c160d02035b1d2104db1388e6affdbc757"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/listing.json": {
+      "bytes": 1440,
+      "sha256": "81ae321131edcbc127c508d81d6465b30f4105b677b8d4b0611b1f59ce74ba85"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/main.splash": {
+      "bytes": 35145,
+      "sha256": "6830d6dba3addbd8304ddf11bd04c828989a35e33633fba69e3b568d89f024bb"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/manifest.json": {
+      "bytes": 13234,
+      "sha256": "c655f07c299a805bc8590351cd65a8c972ad80214a13ab2ee3a2bfd75c8a04b1"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/screenshots/01-main.png": {
+      "bytes": 3405863,
+      "sha256": "8d3e08866cd0aaa7ee9de87f8b4d5f87aae384f5ba351a5f49c7750637a898f4"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/screenshots/02-releases.png": {
+      "bytes": 3502303,
+      "sha256": "a889c6b57e9dbb3b72209f7021381335ca61872a8b9667689b15a77abcddb59d"
+    },
+    "artifacts/org.ymote.reporadar-0.1.2.bundle/tools.json": {
+      "bytes": 10181,
+      "sha256": "869fddc77e504f7af9391de514f52538b9be9a246966087af5cd3de9e70d807f"
+    },
+    "index/org.ymote.reporadar-0.1.2.json": {
+      "bytes": 25110,
+      "sha256": "614bd64a55123a4fadd3c34a56bf96ecc18646f9b652a8f25092ba135364eb41"
+    }
+  },
+  "normal_store_origin_matches": true,
+  "public_store_native_acceptance": "pending"
+}
