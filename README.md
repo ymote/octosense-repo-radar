@@ -85,9 +85,10 @@ current growth. [BRIEF.md](BRIEF.md) states the acceptance scope.
 ## Build and test
 
 Use [OctoSense App Flow](https://github.com/OctoSense-org/OctoSense-App-Flow)
-at commit `dd25bdb6a3f9e3757b586447e4b5ca57d412deb5` or a compatible newer revision.
-The SDK dependency is pinned in the Rust manifest and Cargo.lock. With Rust 1.97.1
-and the `wasm32-wasip2` target installed:
+at commit `dd25bdb6a3f9e3757b586447e4b5ca57d412deb5` or a compatible newer revision;
+App Flow `main` at `27df17f3` (11 October 2026) rebuilt the published 0.1.2
+component byte for byte. The SDK dependency is pinned in the Rust manifest and
+Cargo.lock. With Rust 1.97.1 and the `wasm32-wasip2` target installed:
 
 ```sh
 cargo test --locked --manifest-path components/radar/Cargo.toml
@@ -105,6 +106,30 @@ service. Use a compatible full OctoSense shell and the
 [native acceptance guide](tools/NATIVE-ACCEPTANCE.md). Native acceptance tools
 and dated receipts distinguish an isolated development catalog from actual
 GitHub-attested publication and released-host installation.
+
+The component's functions can be called from the command line, without the
+shell, through OctoSense's `wasm_call` example (OctoSense `main` since
+[#455](https://github.com/OctoSense-org/OctoSense/pull/455)). From an
+OctoSense checkout with its pinned sources set up:
+
+```sh
+cargo run -q -p octosense-wasm-host --example wasm_call -- \
+  /path/to/octosense-repo-radar/bundle/fns/radar.wasm \
+  radar_search '{"query":"octosense","page":1}' --storage /tmp/radar-state
+```
+
+That runs the component under the same runtime the shell uses, with a real
+HTTPS request to `api.github.com` and the watchlist file written to the
+storage folder. On 11 October 2026 the published 0.1.2 component returned a
+`fresh` first page this way. Host services are refused there (`needs a
+shell`), so Glance and chat tools still need the full shell.
+
+The build and the gate were last rechecked on 11 October 2026: `cargo test
+--locked` in `components/radar` passed 18 tests, `octo wasm build` with App
+Flow `main` reproduced `bundle/fns/radar.wasm` unchanged, and `octo check
+bundle` with App Hub `main` (`fb70ddd`) printed `— PASSED` with the
+expected warnings (unsigned source, the component's reach and its 18
+crates, the destructive `reporadar.unpin` tool).
 
 The bundle holds no private key, account configuration or provider credential.
 Publication uses the GitHub-attested workflow, followed by an App Hub submission
